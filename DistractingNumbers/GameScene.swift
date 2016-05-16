@@ -10,8 +10,6 @@ import SpriteKit
 
 class GameScene: SKScene {
     //1
-    let player = SKSpriteNode(imageNamed: "player")
-    let numberLabel = SKLabelNode(fontNamed: "Chalkduster")
     let background = SKSpriteNode(imageNamed: "BG")
     var block = SKSpriteNode()
     
@@ -38,10 +36,9 @@ class GameScene: SKScene {
     func addBlock() {
         block = SKSpriteNode(imageNamed: "Block")
 
-        
         let minValue = self.size.width / 8
         let maxValue = self.size.width - 20
-        //let spawnPoint = UInt32(maxValue - minValue)
+        
         
         let spawnPoint = CGFloat(arc4random_uniform(UInt32(maxValue - minValue)))
         let actualDuration = random(min: CGFloat(2.0), max: CGFloat(4.0))
@@ -49,12 +46,12 @@ class GameScene: SKScene {
         let action = SKAction.moveToY(-30, duration: NSTimeInterval(actualDuration))
         block.runAction(SKAction.repeatActionForever(action))
         
-        
+        let numberLabel = SKLabelNode(fontNamed: "Avenir-Bold")
         numberLabel.text = "4"
         numberLabel.horizontalAlignmentMode = .Center
         numberLabel.verticalAlignmentMode = .Center
         numberLabel.zPosition = block.zPosition + 1
-        numberLabel.fontSize = 15
+        numberLabel.fontSize = 18
         numberLabel.fontColor = UIColor.whiteColor()
         
        
