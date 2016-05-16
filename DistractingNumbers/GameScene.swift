@@ -22,6 +22,9 @@ class GameScene: SKScene {
         
         runAction(SKAction.repeatActionForever(SKAction.sequence([SKAction.runBlock(addBlock),SKAction.waitForDuration(1.0)])))
         
+        let backgroundMusic = SKAudioNode(fileNamed: "background-music-aac.caf")
+        backgroundMusic.autoplayLooped = true
+        addChild(backgroundMusic)
     }
     
     func random() -> CGFloat {
@@ -53,7 +56,7 @@ class GameScene: SKScene {
         numberLabel.zPosition = block.zPosition + 1
         numberLabel.fontSize = 18
         numberLabel.fontColor = UIColor.whiteColor()
-        
+
        
         numberLabel.removeFromParent()
         addChild(block)
@@ -61,6 +64,9 @@ class GameScene: SKScene {
        
 
     }
+    
+    // MARK: - ADD LINE TO TOP OF touchesEnded(_:withEvent))
+    //runAction(SKAction.playSoundFileNamed("pew-pew-lei.caf", waitForCompletion: false))
     
     override func update(currentTime: CFTimeInterval) {
         /* Called before each frame is rendered */
