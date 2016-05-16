@@ -15,6 +15,8 @@
 		C4E9C4301CEA60A300959B41 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4E9C42F1CEA60A300959B41 /* GameScene.swift */; };
 		C4E9C4321CEA670C00959B41 /* PlayScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4E9C4311CEA670C00959B41 /* PlayScene.swift */; };
 		C4E9C4341CEA690E00959B41 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = C4E9C4331CEA690E00959B41 /* GameScene.sks */; };
+		C4E9C4381CEA6FC000959B41 /* background-music-aac.caf in Resources */ = {isa = PBXBuildFile; fileRef = C4E9C4351CEA6F0100959B41 /* background-music-aac.caf */; };
+		C4E9C4391CEA6FC600959B41 /* pew-pew-lei.caf in Resources */ = {isa = PBXBuildFile; fileRef = C4E9C4361CEA6F3100959B41 /* pew-pew-lei.caf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +30,8 @@
 		C4E9C42F1CEA60A300959B41 /* GameScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		C4E9C4311CEA670C00959B41 /* PlayScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayScene.swift; sourceTree = "<group>"; };
 		C4E9C4331CEA690E00959B41 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
+		C4E9C4351CEA6F0100959B41 /* background-music-aac.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "background-music-aac.caf"; sourceTree = "<group>"; };
+		C4E9C4361CEA6F3100959B41 /* pew-pew-lei.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "pew-pew-lei.caf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,12 +69,22 @@
 				C4E9C42F1CEA60A300959B41 /* GameScene.swift */,
 				C4E9C4311CEA670C00959B41 /* PlayScene.swift */,
 				BCD824591CEA2337008216FC /* GameViewController.swift */,
+				C4E9C4371CEA6F3600959B41 /* Sounds */,
 				BCD8245B1CEA2337008216FC /* Main.storyboard */,
 				BCD8245E1CEA2337008216FC /* Assets.xcassets */,
 				BCD824601CEA2337008216FC /* LaunchScreen.storyboard */,
 				BCD824631CEA2337008216FC /* Info.plist */,
 			);
 			path = DistractingNumbers;
+			sourceTree = "<group>";
+		};
+		C4E9C4371CEA6F3600959B41 /* Sounds */ = {
+			isa = PBXGroup;
+			children = (
+				C4E9C4361CEA6F3100959B41 /* pew-pew-lei.caf */,
+				C4E9C4351CEA6F0100959B41 /* background-music-aac.caf */,
+			);
+			name = Sounds;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -131,10 +145,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C4E9C4381CEA6FC000959B41 /* background-music-aac.caf in Resources */,
 				C4E9C4341CEA690E00959B41 /* GameScene.sks in Resources */,
 				BCD824621CEA2337008216FC /* LaunchScreen.storyboard in Resources */,
 				BCD8245F1CEA2337008216FC /* Assets.xcassets in Resources */,
 				BCD8245D1CEA2337008216FC /* Main.storyboard in Resources */,
+				C4E9C4391CEA6FC600959B41 /* pew-pew-lei.caf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

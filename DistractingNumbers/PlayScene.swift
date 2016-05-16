@@ -23,6 +23,10 @@ class PlayScene: SKScene {
         
         runAction(SKAction.repeatActionForever(SKAction.sequence([SKAction.runBlock(spawnNumbers),SKAction.waitForDuration(1.0)])))
         
+        let backgroundMusic = SKAudioNode(fileNamed: "background-music-aac.caf")
+        backgroundMusic.autoplayLooped = true
+        addChild(backgroundMusic)
+        
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
@@ -30,7 +34,7 @@ class PlayScene: SKScene {
         for touch: AnyObject in touches {
             let location = touch.locationInNode(self)
             if let theName = self.nodeAtPoint(location).name {
-                if theName == "Destroyable" {
+                if theName == "Destroyable" || theName == "Label" {
                     self.removeChildrenInArray([self.nodeAtPoint(location)])
                     print("tapped")
                 }
@@ -62,7 +66,7 @@ class PlayScene: SKScene {
         
         let numberLabel = SKLabelNode(text: "4")
         numberLabel.fontName = "Chalkduster"
-        numberLabel.name = "Destroyable"
+        numberLabel.name = "Label"
         numberLabel.horizontalAlignmentMode = .Center
         numberLabel.verticalAlignmentMode = .Center
         //numberLabel.zPosition = block.zPosition + 1
@@ -77,6 +81,9 @@ class PlayScene: SKScene {
         
         
     }
+    
+    // MARK: - ADD LINE TO TOP OF touchesEnded(_:withEvent))
+    //runAction(SKAction.playSoundFileNamed("pew-pew-lei.caf", waitForCompletion: false))
     
     override func update(currentTime: CFTimeInterval) {
         /* Called before each frame is rendered */
