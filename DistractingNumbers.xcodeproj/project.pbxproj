@@ -8,22 +8,30 @@
 
 /* Begin PBXBuildFile section */
 		BCD824541CEA2337008216FC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD824531CEA2337008216FC /* AppDelegate.swift */; };
-		BCD824581CEA2337008216FC /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD824571CEA2337008216FC /* GameScene.swift */; };
 		BCD8245A1CEA2337008216FC /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD824591CEA2337008216FC /* GameViewController.swift */; };
 		BCD8245D1CEA2337008216FC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BCD8245B1CEA2337008216FC /* Main.storyboard */; };
 		BCD8245F1CEA2337008216FC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BCD8245E1CEA2337008216FC /* Assets.xcassets */; };
 		BCD824621CEA2337008216FC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BCD824601CEA2337008216FC /* LaunchScreen.storyboard */; };
+		C4E9C4301CEA60A300959B41 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4E9C42F1CEA60A300959B41 /* GameScene.swift */; };
+		C4E9C4321CEA670C00959B41 /* PlayScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4E9C4311CEA670C00959B41 /* PlayScene.swift */; };
+		C4E9C4341CEA690E00959B41 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = C4E9C4331CEA690E00959B41 /* GameScene.sks */; };
+		C4E9C4381CEA6FC000959B41 /* background-music-aac.caf in Resources */ = {isa = PBXBuildFile; fileRef = C4E9C4351CEA6F0100959B41 /* background-music-aac.caf */; };
+		C4E9C4391CEA6FC600959B41 /* pew-pew-lei.caf in Resources */ = {isa = PBXBuildFile; fileRef = C4E9C4361CEA6F3100959B41 /* pew-pew-lei.caf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		BCD824501CEA2337008216FC /* DistractingNumbers.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DistractingNumbers.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCD824531CEA2337008216FC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		BCD824571CEA2337008216FC /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		BCD824591CEA2337008216FC /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		BCD8245C1CEA2337008216FC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		BCD8245E1CEA2337008216FC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BCD824611CEA2337008216FC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BCD824631CEA2337008216FC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C4E9C42F1CEA60A300959B41 /* GameScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
+		C4E9C4311CEA670C00959B41 /* PlayScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayScene.swift; sourceTree = "<group>"; };
+		C4E9C4331CEA690E00959B41 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
+		C4E9C4351CEA6F0100959B41 /* background-music-aac.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "background-music-aac.caf"; sourceTree = "<group>"; };
+		C4E9C4361CEA6F3100959B41 /* pew-pew-lei.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "pew-pew-lei.caf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,14 +65,26 @@
 			isa = PBXGroup;
 			children = (
 				BCD824531CEA2337008216FC /* AppDelegate.swift */,
-				BCD824571CEA2337008216FC /* GameScene.swift */,
+				C4E9C4331CEA690E00959B41 /* GameScene.sks */,
+				C4E9C42F1CEA60A300959B41 /* GameScene.swift */,
+				C4E9C4311CEA670C00959B41 /* PlayScene.swift */,
 				BCD824591CEA2337008216FC /* GameViewController.swift */,
+				C4E9C4371CEA6F3600959B41 /* Sounds */,
 				BCD8245B1CEA2337008216FC /* Main.storyboard */,
 				BCD8245E1CEA2337008216FC /* Assets.xcassets */,
 				BCD824601CEA2337008216FC /* LaunchScreen.storyboard */,
 				BCD824631CEA2337008216FC /* Info.plist */,
 			);
 			path = DistractingNumbers;
+			sourceTree = "<group>";
+		};
+		C4E9C4371CEA6F3600959B41 /* Sounds */ = {
+			isa = PBXGroup;
+			children = (
+				C4E9C4361CEA6F3100959B41 /* pew-pew-lei.caf */,
+				C4E9C4351CEA6F0100959B41 /* background-music-aac.caf */,
+			);
+			name = Sounds;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -125,9 +145,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C4E9C4381CEA6FC000959B41 /* background-music-aac.caf in Resources */,
+				C4E9C4341CEA690E00959B41 /* GameScene.sks in Resources */,
 				BCD824621CEA2337008216FC /* LaunchScreen.storyboard in Resources */,
 				BCD8245F1CEA2337008216FC /* Assets.xcassets in Resources */,
 				BCD8245D1CEA2337008216FC /* Main.storyboard in Resources */,
+				C4E9C4391CEA6FC600959B41 /* pew-pew-lei.caf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -138,8 +161,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BCD824581CEA2337008216FC /* GameScene.swift in Sources */,
+				C4E9C4321CEA670C00959B41 /* PlayScene.swift in Sources */,
 				BCD8245A1CEA2337008216FC /* GameViewController.swift in Sources */,
+				C4E9C4301CEA60A300959B41 /* GameScene.swift in Sources */,
 				BCD824541CEA2337008216FC /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -290,6 +314,7 @@
 				BCD824681CEA2337008216FC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
