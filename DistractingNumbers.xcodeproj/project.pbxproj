@@ -18,6 +18,7 @@
 		C4E9C4341CEA690E00959B41 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = C4E9C4331CEA690E00959B41 /* GameScene.sks */; };
 		C4E9C4381CEA6FC000959B41 /* background-music-aac.caf in Resources */ = {isa = PBXBuildFile; fileRef = C4E9C4351CEA6F0100959B41 /* background-music-aac.caf */; };
 		C4E9C4391CEA6FC600959B41 /* pew-pew-lei.caf in Resources */ = {isa = PBXBuildFile; fileRef = C4E9C4361CEA6F3100959B41 /* pew-pew-lei.caf */; };
+		DD3AF5DA1CEBB8A600079BEB /* ScoreScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD3AF5D91CEBB8A600079BEB /* ScoreScene.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +35,7 @@
 		C4E9C4331CEA690E00959B41 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
 		C4E9C4351CEA6F0100959B41 /* background-music-aac.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "background-music-aac.caf"; sourceTree = "<group>"; };
 		C4E9C4361CEA6F3100959B41 /* pew-pew-lei.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "pew-pew-lei.caf"; sourceTree = "<group>"; };
+		DD3AF5D91CEBB8A600079BEB /* ScoreScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScoreScene.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,6 +73,7 @@
 				C4E9C4331CEA690E00959B41 /* GameScene.sks */,
 				C4E9C42F1CEA60A300959B41 /* GameScene.swift */,
 				C4E9C4311CEA670C00959B41 /* PlayScene.swift */,
+				DD3AF5D91CEBB8A600079BEB /* ScoreScene.swift */,
 				BCD824591CEA2337008216FC /* GameViewController.swift */,
 				C4E9C4371CEA6F3600959B41 /* Sounds */,
 				BCD8245B1CEA2337008216FC /* Main.storyboard */,
@@ -169,6 +172,7 @@
 				BCD8245A1CEA2337008216FC /* GameViewController.swift in Sources */,
 				C4E9C4301CEA60A300959B41 /* GameScene.swift in Sources */,
 				BCD824541CEA2337008216FC /* AppDelegate.swift in Sources */,
+				DD3AF5DA1CEBB8A600079BEB /* ScoreScene.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
