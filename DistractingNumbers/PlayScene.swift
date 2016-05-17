@@ -15,7 +15,7 @@ class PlayScene: SKScene {
     //var block = SKSpriteNode()
     
     override func didMoveToView(view: SKView) {
-        self.backgroundColor = .whiteColor()
+        self.backgroundColor = .blueColor()
         
         //        background.position = CGPoint(x: view.bounds.midX, y: view.bounds.midY)
         //        background.zPosition = -1
@@ -33,12 +33,16 @@ class PlayScene: SKScene {
         
         for touch: AnyObject in touches {
             let location = touch.locationInNode(self)
-            if let theName = self.nodeAtPoint(location).name {
-                if theName == "Destroyable" || theName == "Label" {
-                    self.removeChildrenInArray([self.nodeAtPoint(location)])
-                    print("tapped")
-                }
+            let theNode = self.nodeAtPoint(location)
+            if theNode.name == "Destroyable" {
+                self.removeChildrenInArray([self.nodeAtPoint(location)])
+                print("tapped bax")
             }
+            if theNode.name == "Label" {
+                theNode.removeFromParent()
+                print("tapped label")
+            }
+            
         }
     }
     
@@ -55,21 +59,23 @@ class PlayScene: SKScene {
         let minValue = self.size.width / 8
         let maxValue = self.size.width - 20
         let spawnPoint = CGFloat(arc4random_uniform(UInt32(maxValue - minValue)))
-        let actualDuration = random(min: CGFloat(2.0), max: CGFloat(4.0))
-        let action = SKAction.moveToY(-30, duration: NSTimeInterval(actualDuration))
+        //let actualDuration = random(min: CGFloat(2.0), max: CGFloat(4.0))
+        let action = SKAction.moveToY(-30, duration: 3.0)
         
         let numContainer = SKShapeNode(rectOfSize: CGSize(width: 50, height: 50))
         numContainer.name = "Destroyable"
         numContainer.fillColor = .blackColor()
         numContainer.position = CGPoint(x: spawnPoint, y: self.size.height)
         numContainer.runAction(SKAction.repeatActionForever(action))
+        numContainer.zPosition = 1
         
         let numberLabel = SKLabelNode(text: "4")
         numberLabel.fontName = "Chalkduster"
         numberLabel.name = "Label"
+        numberLabel.zPosition = -1
+        numberLabel.userInteractionEnabled = false
         numberLabel.horizontalAlignmentMode = .Center
         numberLabel.verticalAlignmentMode = .Center
-        //numberLabel.zPosition = block.zPosition + 1
         numberLabel.fontColor = UIColor.whiteColor()
         numberLabel.fontSize = 18
         numberLabel.fontColor = UIColor.whiteColor()
