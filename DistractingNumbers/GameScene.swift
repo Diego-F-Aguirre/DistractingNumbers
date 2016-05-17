@@ -10,13 +10,43 @@ import SpriteKit
 
 class GameScene: SKScene {
     
-    let playButton = SKSpriteNode(imageNamed: "playButton")
+    let playButton = SKSpriteNode(imageNamed: "PlayButton")
     
     override func didMoveToView(view: SKView) {
         
+        //Falling Circle
+        let fallingCircle = SKSpriteNode(imageNamed: "falling_circle")
+        fallingCircle.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame) - 85)
+        
+        self.addChild(fallingCircle)
+        
+        //PlayButton
         self.playButton.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame))
+        self.backgroundColor = UIColor(red: 1.000, green: 0.000, blue: 0.184, alpha: 1.00)
+        
         self.addChild(self.playButton)
-        self.backgroundColor = .blueColor()
+        
+        //TitleLabel
+        let titleLabel = SKLabelNode(text: "Distraction")
+        titleLabel.fontName = "AvenirNext-Bold"
+        titleLabel.verticalAlignmentMode = .Top
+        titleLabel.position = (CGPoint(x: CGRectGetMidX(self.frame), y: CGRectGetMaxY(self.frame) - 60))
+        titleLabel.zPosition = 1
+        titleLabel.fontColor = UIColor.whiteColor()
+        titleLabel.fontSize = 50
+        
+        self.addChild(titleLabel)
+        
+        //Highest Score Label
+        let highScore = SKLabelNode(text: "Highest Score")
+        highScore.fontName = "AvenirNext-Bold"
+        highScore.verticalAlignmentMode = .Top
+        highScore.position = (CGPoint(x: CGRectGetMidX(self.frame), y: CGRectGetMinY(playButton.frame) - 60))
+        highScore.zPosition = 1
+        highScore.fontColor = UIColor.whiteColor()
+        highScore.fontSize = 36
+        
+        self.addChild(highScore)
         
     }
     
