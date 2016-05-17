@@ -10,7 +10,7 @@ import SpriteKit
 
 class GameScene: SKScene {
     
-    let playButton = SKSpriteNode(imageNamed: "playButton")
+    let playButton = SKSpriteNode(imageNamed: "PlayButton")
     
     override func didMoveToView(view: SKView) {
         
