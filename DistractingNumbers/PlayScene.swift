@@ -51,12 +51,7 @@ class PlayScene: SKScene {
                 self.removeChildrenInArray([self.nodeAtPoint(location)])
                 score+=1
             }
-            if gameOver == true {
-                print("game over")
-            }
-
         }
-        
     }
     
     func random() -> CGFloat {
@@ -66,6 +61,13 @@ class PlayScene: SKScene {
     func random(min min: CGFloat, max: CGFloat) -> CGFloat {
         return random() * (max - min) + min
     }
+    
+//    func loopThroughNumbers() {
+//        for num in 1...1000 {
+//            //var placeHolderNum = num
+//            spawnNumbers(num)
+//        }
+//    }
     
     func spawnNumbers() {
         
@@ -107,6 +109,12 @@ class PlayScene: SKScene {
         
         if gameOver == true {
 
+            let scene = ScoreScene(size: self.size)
+            let skView = self.view! as SKView
+            skView.ignoresSiblingOrder = true
+            scene.scaleMode = .ResizeFill
+            scene.size = skView.bounds.size
+            skView.presentScene(scene)
             
         }
         
@@ -116,10 +124,6 @@ class PlayScene: SKScene {
     
     func updateScoreLabel() {
         scoreLabel?.text = "Score: \(score)"
-    }
-    
-    func gameOverfunc() {
-        print("you lose")
     }
     
     func checkIfNumHitTheBottom() {
