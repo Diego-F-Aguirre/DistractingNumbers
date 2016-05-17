@@ -9,6 +9,10 @@
 import SpriteKit
 
 class PlayScene: SKScene {
+    var textureAtlas = SKTextureAtlas()
+    var textureArray = [SKTexture]()
+    var bear = SKSpriteNode()
+    
     
     var score = 0
     var gameOver : Bool?
@@ -24,9 +28,16 @@ class PlayScene: SKScene {
         self.backgroundColor = UIColor(red: 1.000, green: 0.000, blue: 0.184, alpha: 1.00)
         runAction(SKAction.repeatActionForever(SKAction.sequence([SKAction.runBlock(spawnNumbers),SKAction.waitForDuration(1.0)])))
         
-//        let backgroundMusic = SKAudioNode(fileNamed: "background-music-aac.caf")
-//        backgroundMusic.autoplayLooped = true
-//        addChild(backgroundMusic)
+        //bear Background
+        bear = SKSpriteNode(imageNamed: "bear_1.png")
+        bear.position = CGPoint(x: CGRectGetMidX(view.frame), y: CGRectGetMidY(view.frame))
+        bear.zPosition = -1
+        self.addChild(bear)
+        
+        //BG Music
+        let backgroundMusic = SKAudioNode(fileNamed: "background-music-aac.caf")
+        backgroundMusic.autoplayLooped = true
+        addChild(backgroundMusic)
         
     }
     
@@ -103,7 +114,7 @@ class PlayScene: SKScene {
         //check if game is over
         
         if gameOver == true {
-
+            
             let scene = ScoreScene(size: self.size)
             let skView = self.view! as SKView
             skView.ignoresSiblingOrder = true
