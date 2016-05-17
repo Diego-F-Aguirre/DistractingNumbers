@@ -15,6 +15,7 @@ class PlayScene: SKScene {
     var scoreLabel : SKLabelNode?
     var numContainer = SKSpriteNode()
     var numContainerArray = [SKSpriteNode]()
+    var numToTouch = 1
     
     override func didMoveToView(view: SKView) {
         
@@ -62,13 +63,6 @@ class PlayScene: SKScene {
         return random() * (max - min) + min
     }
     
-//    func loopThroughNumbers() {
-//        for num in 1...1000 {
-//            //var placeHolderNum = num
-//            spawnNumbers(num)
-//        }
-//    }
-    
     func spawnNumbers() {
         
         let minValue = self.size.width / 8
@@ -87,7 +81,7 @@ class PlayScene: SKScene {
         numContainer.zPosition = 1
         
         let numberLabel = SKLabelNode(fontNamed: "AvenirNext-Bold")
-        numberLabel.text = "77"
+        numberLabel.text = "\(numToTouch)"
         numberLabel.name = "Label"
         numberLabel.zPosition = -1
         numberLabel.position = CGPointMake(CGRectGetMidX(numContainer.centerRect) + 36, CGRectGetMidY(numContainer.centerRect) + 36)
@@ -99,6 +93,7 @@ class PlayScene: SKScene {
         addChild(numContainer)
         numContainer.addChild(numberLabel)
         numContainerArray.append(numContainer)
+        numToTouch += 1
     }
     
     // MARK: - ADD LINE TO TOP OF touchesEnded(_:withEvent))
