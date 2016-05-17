@@ -9,40 +9,24 @@
 import SpriteKit
 
 class PlayScene: SKScene {
-    
-    
-    //let background = SKSpriteNode(imageNamed: "BG")
-    //var block = SKSpriteNode()
-    
     override func didMoveToView(view: SKView) {
-        self.backgroundColor = .blueColor()
-        
-        //        background.position = CGPoint(x: view.bounds.midX, y: view.bounds.midY)
-        //        background.zPosition = -1
-        //        addChild(background)
-        
+        self.backgroundColor = UIColor(red: 1.000, green: 0.000, blue: 0.184, alpha: 1.00)
         runAction(SKAction.repeatActionForever(SKAction.sequence([SKAction.runBlock(spawnNumbers),SKAction.waitForDuration(1.0)])))
         
         let backgroundMusic = SKAudioNode(fileNamed: "background-music-aac.caf")
         backgroundMusic.autoplayLooped = true
         addChild(backgroundMusic)
-        
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        
         for touch: AnyObject in touches {
             let location = touch.locationInNode(self)
-            let theNode = self.nodeAtPoint(location)
-            if theNode.name == "Destroyable" {
-                self.removeChildrenInArray([self.nodeAtPoint(location)])
-                print("tapped bax")
+            if let theName = self.nodeAtPoint(location).name {
+                if theName == "Destroyable" || theName == "Label" {
+                    self.removeChildrenInArray([self.nodeAtPoint(location)])
+                    print("tapped")
+                }
             }
-            if theNode.name == "Label" {
-                theNode.removeFromParent()
-                print("tapped label")
-            }
-            
         }
     }
     
@@ -59,33 +43,24 @@ class PlayScene: SKScene {
         let minValue = self.size.width / 8
         let maxValue = self.size.width - 20
         let spawnPoint = CGFloat(arc4random_uniform(UInt32(maxValue - minValue)))
-        //let actualDuration = random(min: CGFloat(2.0), max: CGFloat(4.0))
-        let action = SKAction.moveToY(-30, duration: 3.0)
+        let actualDuration = random(min: CGFloat(2.0), max: CGFloat(4.0))
+        let action = SKAction.moveToY(-160, duration: NSTimeInterval(actualDuration))
         
-        let numContainer = SKShapeNode(rectOfSize: CGSize(width: 50, height: 50))
-        numContainer.name = "Destroyable"
-        numContainer.fillColor = .blackColor()
-        numContainer.position = CGPoint(x: spawnPoint, y: self.size.height)
-        numContainer.runAction(SKAction.repeatActionForever(action))
-        numContainer.zPosition = 1
+        let numbContainer = SKSpriteNode(imageNamed: "Circle")
+        numbContainer.name = "Destroyable"
+        numbContainer.position = CGPoint(x: spawnPoint, y: self.size.height)
+        numbContainer.runAction(SKAction.repeatActionForever(action))
         
-        let numberLabel = SKLabelNode(text: "4")
-        numberLabel.fontName = "Chalkduster"
+        let numberLabel = SKLabelNode(text: "77")
+        numberLabel.fontName = "AvenirNext-Bold"
         numberLabel.name = "Label"
-        numberLabel.zPosition = -1
-        numberLabel.userInteractionEnabled = false
         numberLabel.horizontalAlignmentMode = .Center
         numberLabel.verticalAlignmentMode = .Center
         numberLabel.fontColor = UIColor.whiteColor()
-        numberLabel.fontSize = 18
-        numberLabel.fontColor = UIColor.whiteColor()
+        numberLabel.fontSize = 50
         
-        
-        //numberLabel.removeFromParent()
-        addChild(numContainer)
-        numContainer.addChild(numberLabel)
-        
-        
+        addChild(numbContainer)
+        numbContainer.addChild(numberLabel)
     }
     
     // MARK: - ADD LINE TO TOP OF touchesEnded(_:withEvent))

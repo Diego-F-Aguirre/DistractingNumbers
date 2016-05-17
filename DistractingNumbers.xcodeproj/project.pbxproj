@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BC2418341CEAD0B700A4AB3D /* Bear_Images.atlas in Resources */ = {isa = PBXBuildFile; fileRef = BC2418331CEAD0B700A4AB3D /* Bear_Images.atlas */; };
 		BCD824541CEA2337008216FC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD824531CEA2337008216FC /* AppDelegate.swift */; };
 		BCD8245A1CEA2337008216FC /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD824591CEA2337008216FC /* GameViewController.swift */; };
 		BCD8245D1CEA2337008216FC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BCD8245B1CEA2337008216FC /* Main.storyboard */; };
@@ -20,6 +21,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		BC2418331CEAD0B700A4AB3D /* Bear_Images.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = Bear_Images.atlas; sourceTree = "<group>"; };
 		BCD824501CEA2337008216FC /* DistractingNumbers.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DistractingNumbers.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCD824531CEA2337008216FC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BCD824591CEA2337008216FC /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
@@ -50,6 +52,7 @@
 			children = (
 				BCD824521CEA2337008216FC /* DistractingNumbers */,
 				BCD824511CEA2337008216FC /* Products */,
+				BC2418331CEAD0B700A4AB3D /* Bear_Images.atlas */,
 			);
 			sourceTree = "<group>";
 		};
@@ -150,6 +153,7 @@
 				BCD824621CEA2337008216FC /* LaunchScreen.storyboard in Resources */,
 				BCD8245F1CEA2337008216FC /* Assets.xcassets in Resources */,
 				BCD8245D1CEA2337008216FC /* Main.storyboard in Resources */,
+				BC2418341CEAD0B700A4AB3D /* Bear_Images.atlas in Resources */,
 				C4E9C4391CEA6FC600959B41 /* pew-pew-lei.caf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
