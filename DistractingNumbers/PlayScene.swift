@@ -13,6 +13,8 @@ class PlayScene: SKScene {
     var score = 0
     var gameOver : Bool?
     var scoreLabel : SKLabelNode?
+    var numContainer = SKSpriteNode()
+    var numContainerArray = [SKSpriteNode]()
     
     override func didMoveToView(view: SKView) {
         
@@ -74,7 +76,7 @@ class PlayScene: SKScene {
         //let actualDuration = random(min: CGFloat(2.0), max: CGFloat(4.0))
         let action = SKAction.moveToY(-160, duration: 3)
         
-        let numContainer = SKSpriteNode(imageNamed: "Circle")
+        numContainer = SKSpriteNode(imageNamed: "Circle")
         numContainer.name = "Circle"
         numContainer.size = CGSize(width: 72, height: 72)
         numContainer.anchorPoint = CGPointMake(0, 0)
@@ -94,6 +96,7 @@ class PlayScene: SKScene {
         
         addChild(numContainer)
         numContainer.addChild(numberLabel)
+        numContainerArray.append(numContainer)
     }
     
     // MARK: - ADD LINE TO TOP OF touchesEnded(_:withEvent))
@@ -101,6 +104,12 @@ class PlayScene: SKScene {
     
     override func update(currentTime: CFTimeInterval) {
         //check if game is over
+        
+        if gameOver == true {
+
+            
+        }
+        
         checkIfNumHitTheBottom()
         updateScoreLabel()
     }
@@ -109,14 +118,15 @@ class PlayScene: SKScene {
         scoreLabel?.text = "Score: \(score)"
     }
     
+    func gameOverfunc() {
+        print("you lose")
+    }
+    
     func checkIfNumHitTheBottom() {
-        for child in self.children {
-            if child.name == "Label" {
-                if child.position.y == 0 {
-                    gameOver = true
-                    print("I hit the bottom")
-                    //showGameOverScreen()
-                }
+        for node in numContainerArray {
+            if node.position.y < -node.size.height / 2.0 {
+                node.removeFromParent()
+                gameOver = true
             }
         }
     }
