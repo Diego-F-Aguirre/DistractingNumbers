@@ -15,9 +15,9 @@ class GameViewController: UIViewController {
         if let scene = GameScene(fileNamed:"GameScene") {
             // Configure the view.
             let skView = self.view as! SKView
-            skView.showsFPS = false
+            skView.showsFPS = true
             skView.sizeToFit()
-            skView.showsNodeCount = false
+            skView.showsNodeCount = true
             
             /* Sprite Kit applies additional optimizations to improve rendering performance */
             skView.ignoresSiblingOrder = true
@@ -28,6 +28,15 @@ class GameViewController: UIViewController {
             skView.presentScene(scene)
         }
 
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+         UIApplication.sharedApplication().statusBarStyle = .Default
+    }
+    
+    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+        return .LightContent
     }
     
     override func shouldAutorotate() -> Bool {
