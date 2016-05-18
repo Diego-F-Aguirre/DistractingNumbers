@@ -8,7 +8,7 @@
 
 import SpriteKit
 
-class PlayScene: SKScene {
+class PlayScene: SKScene, SKPhysicsContactDelegate {
     var textureAtlas = SKTextureAtlas()
     var textureArray = [SKTexture]()
     var bear = SKSpriteNode()
@@ -25,8 +25,14 @@ class PlayScene: SKScene {
         
         initializeValues()
         
+        let borderBody = SKPhysicsBody(edgeLoopFromRect: self.frame)
+        borderBody.friction = 0
+        self.physicsBody = borderBody
+        physicsWorld.gravity = CGVector(dx: 0.0, dy: 0.0)
+        physicsWorld.contactDelegate = self
+        
         self.backgroundColor = UIColor(red: 1.000, green: 0.000, blue: 0.184, alpha: 1.00)
-        runAction(SKAction.repeatActionForever(SKAction.sequence([SKAction.runBlock(spawnNumbers),SKAction.waitForDuration(1.0)])))
+        runAction(SKAction.repeatActionForever(SKAction.sequence([SKAction.runBlock(spawnNumbers),SKAction.waitForDuration(0.3)])))
         
         //bear Background
         bear = SKSpriteNode(imageNamed: "bear_1.png")
@@ -52,6 +58,10 @@ class PlayScene: SKScene {
         scoreLabel?.position = CGPoint(x:CGRectGetMinX(self.frame) + 65, y:(CGRectGetMinY(self.frame) + 10));
         self.addChild(scoreLabel!)
         
+    }
+    
+    func didBeginContact(contact: SKPhysicsContact) {
+        <#code#>
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
@@ -100,6 +110,13 @@ class PlayScene: SKScene {
         numberLabel.verticalAlignmentMode = .Center
         numberLabel.fontColor = UIColor.whiteColor()
         numberLabel.fontSize = 28
+        
+      
+        
+        numContainer.physicsBody = SKPhysicsBody(circleOfRadius: numContainer.frame.width / 2)
+        numContainer.physicsBody?.usesPreciseCollisionDetection = true
+        numContainer.physicsBody?.categoryBitMask = 0x1 << 0
+        numContainer.physicsBody?.applyForce(CGVector(dx: 2.0, dy: -2.0))
         
         addChild(numContainer)
         numContainer.addChild(numberLabel)
