@@ -16,9 +16,14 @@
 		C4E9C4301CEA60A300959B41 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4E9C42F1CEA60A300959B41 /* GameScene.swift */; };
 		C4E9C4321CEA670C00959B41 /* PlayScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4E9C4311CEA670C00959B41 /* PlayScene.swift */; };
 		C4E9C4341CEA690E00959B41 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = C4E9C4331CEA690E00959B41 /* GameScene.sks */; };
-		C4E9C4381CEA6FC000959B41 /* background-music-aac.caf in Resources */ = {isa = PBXBuildFile; fileRef = C4E9C4351CEA6F0100959B41 /* background-music-aac.caf */; };
-		C4E9C4391CEA6FC600959B41 /* pew-pew-lei.caf in Resources */ = {isa = PBXBuildFile; fileRef = C4E9C4361CEA6F3100959B41 /* pew-pew-lei.caf */; };
 		DD3AF5DA1CEBB8A600079BEB /* ScoreScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD3AF5D91CEBB8A600079BEB /* ScoreScene.swift */; };
+		DD3AF5ED1CED293A00079BEB /* menuSound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DD3AF5EC1CED293A00079BEB /* menuSound.mp3 */; };
+		DD3AF5EF1CED295000079BEB /* pop2.wav in Resources */ = {isa = PBXBuildFile; fileRef = DD3AF5EE1CED295000079BEB /* pop2.wav */; };
+		DD3AF5F11CED295600079BEB /* round1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DD3AF5F01CED295600079BEB /* round1.mp3 */; };
+		DD3AF5F31CED295E00079BEB /* rushRound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DD3AF5F21CED295E00079BEB /* rushRound.mp3 */; };
+		DD3AF5F61CED298700079BEB /* incorrect.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DD3AF5F41CED298700079BEB /* incorrect.mp3 */; };
+		DD3AF5F71CED298700079BEB /* incorrect2.wav in Resources */ = {isa = PBXBuildFile; fileRef = DD3AF5F51CED298700079BEB /* incorrect2.wav */; };
+		DD3AF5F91CED299900079BEB /* gameEnded.wav in Resources */ = {isa = PBXBuildFile; fileRef = DD3AF5F81CED299900079BEB /* gameEnded.wav */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,9 +38,14 @@
 		C4E9C42F1CEA60A300959B41 /* GameScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		C4E9C4311CEA670C00959B41 /* PlayScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayScene.swift; sourceTree = "<group>"; };
 		C4E9C4331CEA690E00959B41 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
-		C4E9C4351CEA6F0100959B41 /* background-music-aac.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "background-music-aac.caf"; sourceTree = "<group>"; };
-		C4E9C4361CEA6F3100959B41 /* pew-pew-lei.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "pew-pew-lei.caf"; sourceTree = "<group>"; };
 		DD3AF5D91CEBB8A600079BEB /* ScoreScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScoreScene.swift; sourceTree = "<group>"; };
+		DD3AF5EC1CED293A00079BEB /* menuSound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = menuSound.mp3; sourceTree = "<group>"; };
+		DD3AF5EE1CED295000079BEB /* pop2.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = pop2.wav; sourceTree = "<group>"; };
+		DD3AF5F01CED295600079BEB /* round1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = round1.mp3; sourceTree = "<group>"; };
+		DD3AF5F21CED295E00079BEB /* rushRound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = rushRound.mp3; sourceTree = "<group>"; };
+		DD3AF5F41CED298700079BEB /* incorrect.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = incorrect.mp3; sourceTree = "<group>"; };
+		DD3AF5F51CED298700079BEB /* incorrect2.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = incorrect2.wav; sourceTree = "<group>"; };
+		DD3AF5F81CED299900079BEB /* gameEnded.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = gameEnded.wav; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,8 +97,13 @@
 		C4E9C4371CEA6F3600959B41 /* Sounds */ = {
 			isa = PBXGroup;
 			children = (
-				C4E9C4361CEA6F3100959B41 /* pew-pew-lei.caf */,
-				C4E9C4351CEA6F0100959B41 /* background-music-aac.caf */,
+				DD3AF5EC1CED293A00079BEB /* menuSound.mp3 */,
+				DD3AF5EE1CED295000079BEB /* pop2.wav */,
+				DD3AF5F01CED295600079BEB /* round1.mp3 */,
+				DD3AF5F21CED295E00079BEB /* rushRound.mp3 */,
+				DD3AF5F41CED298700079BEB /* incorrect.mp3 */,
+				DD3AF5F51CED298700079BEB /* incorrect2.wav */,
+				DD3AF5F81CED299900079BEB /* gameEnded.wav */,
 			);
 			name = Sounds;
 			sourceTree = "<group>";
@@ -151,13 +166,18 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C4E9C4381CEA6FC000959B41 /* background-music-aac.caf in Resources */,
+				DD3AF5F61CED298700079BEB /* incorrect.mp3 in Resources */,
 				C4E9C4341CEA690E00959B41 /* GameScene.sks in Resources */,
+				DD3AF5F71CED298700079BEB /* incorrect2.wav in Resources */,
+				DD3AF5F11CED295600079BEB /* round1.mp3 in Resources */,
 				BCD824621CEA2337008216FC /* LaunchScreen.storyboard in Resources */,
 				BCD8245F1CEA2337008216FC /* Assets.xcassets in Resources */,
+				DD3AF5EF1CED295000079BEB /* pop2.wav in Resources */,
+				DD3AF5F91CED299900079BEB /* gameEnded.wav in Resources */,
 				BCD8245D1CEA2337008216FC /* Main.storyboard in Resources */,
 				BC2418341CEAD0B700A4AB3D /* Bear_Images.atlas in Resources */,
-				C4E9C4391CEA6FC600959B41 /* pew-pew-lei.caf in Resources */,
+				DD3AF5ED1CED293A00079BEB /* menuSound.mp3 in Resources */,
+				DD3AF5F31CED295E00079BEB /* rushRound.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

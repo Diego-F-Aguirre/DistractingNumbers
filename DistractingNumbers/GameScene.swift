@@ -13,6 +13,11 @@ class GameScene: SKScene {
     let playButton = SKSpriteNode(imageNamed: "PlayButton")
     
     override func didMoveToView(view: SKView) {
+        //BG Game Scene Music
+        let backgroundMusic = SKAudioNode(fileNamed: "menuSound.mp3")
+        backgroundMusic.autoplayLooped = true
+        addChild(backgroundMusic)
+        
         //Falling Circle
         let fallingCircle = SKSpriteNode(imageNamed: "falling_circle")
         fallingCircle.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame) - 85)

@@ -15,10 +15,9 @@ class ScoreScene: SKScene {
     
     override func didMoveToView(view: SKView) {
         
+        runAction(SKAction.playSoundFileNamed("gameEnded.wav", waitForCompletion: false))
+        
         guard let savedHighScore = NSUserDefaults.standardUserDefaults().objectForKey("savedHighScore") else {return}
-//        if let score = savedHighScore as? Int {
-//            print(Scores.highScore)
-//        }
         
         self.backgroundColor = UIColor(red: 1.000, green: 0.000, blue: 0.184, alpha: 1.00)
         
