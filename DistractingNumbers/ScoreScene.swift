@@ -15,6 +15,11 @@ class ScoreScene: SKScene {
     
     override func didMoveToView(view: SKView) {
         
+        guard let savedHighScore = NSUserDefaults.standardUserDefaults().objectForKey("savedHighScore") else {return}
+//        if let score = savedHighScore as? Int {
+//            print(Scores.highScore)
+//        }
+        
         self.backgroundColor = UIColor(red: 1.000, green: 0.000, blue: 0.184, alpha: 1.00)
         
         // SCORE TITLE
@@ -29,7 +34,7 @@ class ScoreScene: SKScene {
         self.addChild(scoreTitle)
         
         // SCORE LABEL
-        let scoreLabel = SKLabelNode(text: "34")
+        let scoreLabel = SKLabelNode(text: "\(Scores.score)")
         scoreLabel.fontName = "AvenirNext-Bold"
         scoreLabel.verticalAlignmentMode = .Top
         scoreLabel.position = (CGPoint(x: CGRectGetMidX(self.frame), y: CGRectGetMaxY(scoreTitle.frame) - 60))
@@ -60,7 +65,7 @@ class ScoreScene: SKScene {
         self.addChild(highScore)
         
         // SCORE LABEL 2
-        let highestScore = SKLabelNode(text: "567")
+        let highestScore = SKLabelNode(text: "\(savedHighScore)")
         highestScore.fontName = "AvenirNext-Bold"
         highestScore.verticalAlignmentMode = .Top
         highestScore.position = (CGPoint(x: CGRectGetMidX(self.frame), y: CGRectGetMaxY(highScore.frame) - 60))
