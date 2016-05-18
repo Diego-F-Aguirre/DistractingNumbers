@@ -7,14 +7,18 @@
 //
 
 import SpriteKit
+import UIKit
+
+struct Scores {
+    static var score = 0
+    static var highScore = NSUserDefaults.standardUserDefaults().objectForKey("savedHighScore")
+}
 
 class PlayScene: SKScene {
     var textureAtlas = SKTextureAtlas()
     var textureArray = [SKTexture]()
     var bear = SKSpriteNode()
     
-    
-    var score = 0
     var gameOver : Bool?
     var scoreLabel : SKLabelNode?
     var numContainer = SKSpriteNode()
@@ -43,10 +47,10 @@ class PlayScene: SKScene {
     
     func initializeValues() {
         
-        score = 0
+        Scores.score = 0
         gameOver = false
         scoreLabel = SKLabelNode(fontNamed: "System")
-        scoreLabel?.text = "Score: \(score)"
+        scoreLabel?.text = "Score: \(Scores.score)"
         scoreLabel?.fontSize = 30
         scoreLabel?.fontColor = .whiteColor()
         scoreLabel?.position = CGPoint(x:CGRectGetMinX(self.frame) + 65, y:(CGRectGetMinY(self.frame) + 10));
@@ -61,7 +65,7 @@ class PlayScene: SKScene {
             let theNode = self.nodeAtPoint(location)
             if theNode.name == "Circle" {
                 self.removeChildrenInArray([self.nodeAtPoint(location)])
-                score+=1
+                Scores.score+=1
             }
         }
     }
@@ -113,8 +117,10 @@ class PlayScene: SKScene {
     override func update(currentTime: CFTimeInterval) {
         //check if game is over
         
+        
+        
         if gameOver == true {
-            
+            highScorePersistence()
             let scene = ScoreScene(size: self.size)
             let skView = self.view! as SKView
             skView.ignoresSiblingOrder = true
@@ -129,7 +135,7 @@ class PlayScene: SKScene {
     }
     
     func updateScoreLabel() {
-        scoreLabel?.text = "Score: \(score)"
+        scoreLabel?.text = "Score: \(Scores.score)"
     }
     
     func checkIfNumHitTheBottom() {
@@ -138,6 +144,14 @@ class PlayScene: SKScene {
                 node.removeFromParent()
                 gameOver = true
             }
+        }
+    }
+    
+    func highScorePersistence() {
+        if Scores.score > Scores.highScore as? Int {
+            Scores.highScore = Scores.score
+            let savedHighScore = Scores.highScore
+            NSUserDefaults.standardUserDefaults().setObject(savedHighScore, forKey: "savedHighScore")
         }
     }
 }
