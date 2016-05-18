@@ -18,9 +18,11 @@ class PlayScene: SKScene {
     var textureAtlas = SKTextureAtlas()
     var textureArray = [SKTexture]()
     var bear = SKSpriteNode()
+    var whiteFlashNode = SKSpriteNode()
     
     var gameOver : Bool?
     var scoreLabel : SKLabelNode?
+    var health = 3
     var numContainer = SKSpriteNode()
     var numContainerArray = [SKSpriteNode]()
     var numToTouch = 1
@@ -30,31 +32,22 @@ class PlayScene: SKScene {
         initializeValues()
         
         self.backgroundColor = UIColor(red: 1.000, green: 0.000, blue: 0.184, alpha: 1.00)
-        runAction(SKAction.repeatActionForever(SKAction.sequence([SKAction.runBlock(spawnNumbers),SKAction.waitForDuration(1.0)])))
+        
+        spawnNumbersForever()
+        spawnRandomNumForever()
+        
+        whiteFlash()
         
         //bear Background
         bear = SKSpriteNode(imageNamed: "bear_1.png")
         bear.position = CGPoint(x: CGRectGetMidX(view.frame), y: CGRectGetMidY(view.frame))
-        bear.zPosition = -1
+        bear.zPosition = -5
         self.addChild(bear)
         
         //BG Music
         let backgroundMusic = SKAudioNode(fileNamed: "background-music-aac.caf")
         backgroundMusic.autoplayLooped = true
         addChild(backgroundMusic)
-        
-    }
-    
-    func initializeValues() {
-        
-        Scores.score = 0
-        gameOver = false
-        scoreLabel = SKLabelNode(fontNamed: "System")
-        scoreLabel?.text = "Score: \(Scores.score)"
-        scoreLabel?.fontSize = 30
-        scoreLabel?.fontColor = .whiteColor()
-        scoreLabel?.position = CGPoint(x:CGRectGetMinX(self.frame) + 65, y:(CGRectGetMinY(self.frame) + 10));
-        self.addChild(scoreLabel!)
         
     }
     
@@ -67,7 +60,48 @@ class PlayScene: SKScene {
                 self.removeChildrenInArray([self.nodeAtPoint(location)])
                 Scores.score+=1
             }
+            if theNode.name == "FakeCircle" {
+                health -= 1
+                whiteFlashNode.hidden = false
+                runAction(SKAction.sequence([SKAction.waitForDuration(0.15), SKAction.runBlock(dismissWhiteFlash)]))
+            }
         }
+    }
+    
+    func whiteFlash() {
+        whiteFlashNode.size = CGSize(width: self.size.width, height: self.size.height)
+        // REPLACE COLOR WITH THE BEAR CLAW IMAGE******************************************************
+        whiteFlashNode.color = .whiteColor()
+        whiteFlashNode.hidden = true
+        whiteFlashNode.position = CGPoint(x: CGRectGetMidX(view!.frame), y: CGRectGetMidY(view!.frame))
+        
+        addChild(whiteFlashNode)
+    }
+    
+    func dismissWhiteFlash() {
+        whiteFlashNode.hidden = true
+    }
+    
+    func spawnNumbersForever() {
+        runAction(SKAction.repeatActionForever(SKAction.sequence([SKAction.runBlock(spawnNumbers),SKAction.waitForDuration(1.3)])))
+    }
+    
+    func spawnRandomNumForever() {
+        runAction(SKAction.repeatActionForever(SKAction.sequence([SKAction.runBlock(spawnRandomNumbers),SKAction.waitForDuration(0.5)])))
+    }
+    
+    func initializeValues() {
+        
+        Scores.score = 0
+        gameOver = false
+        health = 3
+        scoreLabel = SKLabelNode(fontNamed: "System")
+        scoreLabel?.text = "Score: \(Scores.score)"
+        scoreLabel?.fontSize = 30
+        scoreLabel?.fontColor = .whiteColor()
+        scoreLabel?.position = CGPoint(x:CGRectGetMinX(self.frame) + 65, y:(CGRectGetMinY(self.frame) + 10));
+        self.addChild(scoreLabel!)
+        
     }
     
     func random() -> CGFloat {
@@ -78,14 +112,46 @@ class PlayScene: SKScene {
         return random() * (max - min) + min
     }
     
+    func spawnRandomNumbers() {
+        
+        let minValue = self.size.width / 8
+        let maxValue = self.size.width - 36
+        
+        let spawnPoint = CGFloat(arc4random_uniform(UInt32(maxValue - minValue)))
+        let actualDuration = random(min: CGFloat(2.0), max: CGFloat(4.0))
+        let action = SKAction.moveToY(-160, duration: 2)
+        
+        let randomNumContainer = SKSpriteNode(imageNamed: "Circle")
+        randomNumContainer.name = "FakeCircle"
+        randomNumContainer.size = CGSize(width: 72, height: 72)
+        randomNumContainer.anchorPoint = CGPointMake(0, 0)
+        randomNumContainer.position = CGPoint(x: spawnPoint, y: self.size.height)
+        randomNumContainer.runAction(SKAction.repeatActionForever(action))
+        randomNumContainer.zPosition = -1
+        
+        let randomNumberLabel = SKLabelNode(fontNamed: "AvenirNext-Bold")
+        randomNumberLabel.text = String(arc4random_uniform(100))
+        randomNumberLabel.name = "Label"
+        randomNumberLabel.zPosition = -2
+        randomNumberLabel.position = CGPointMake(CGRectGetMidX(numContainer.centerRect) + 36, CGRectGetMidY(numContainer.centerRect) + 36)
+        randomNumberLabel.horizontalAlignmentMode = .Center
+        randomNumberLabel.verticalAlignmentMode = .Center
+        randomNumberLabel.fontColor = UIColor.whiteColor()
+        randomNumberLabel.fontSize = 28
+        
+        addChild(randomNumContainer)
+        randomNumContainer.addChild(randomNumberLabel)
+        
+    }
+    
     func spawnNumbers() {
         
         let minValue = self.size.width / 8
         let maxValue = self.size.width - 36
         
         let spawnPoint = CGFloat(arc4random_uniform(UInt32(maxValue - minValue)))
-        //let actualDuration = random(min: CGFloat(2.0), max: CGFloat(4.0))
-        let action = SKAction.moveToY(-160, duration: 3)
+        let actualDuration = random(min: CGFloat(2.0), max: CGFloat(4.0))
+        let action = SKAction.moveToY(-160, duration: 2)
         
         numContainer = SKSpriteNode(imageNamed: "Circle")
         numContainer.name = "Circle"
@@ -93,7 +159,7 @@ class PlayScene: SKScene {
         numContainer.anchorPoint = CGPointMake(0, 0)
         numContainer.position = CGPoint(x: spawnPoint, y: self.size.height)
         numContainer.runAction(SKAction.repeatActionForever(action))
-        numContainer.zPosition = 1
+        numContainer.zPosition = 2
         
         let numberLabel = SKLabelNode(fontNamed: "AvenirNext-Bold")
         numberLabel.text = "\(numToTouch)"
@@ -111,23 +177,12 @@ class PlayScene: SKScene {
         numToTouch += 1
     }
     
-    // MARK: - ADD LINE TO TOP OF touchesEnded(_:withEvent))
-    //runAction(SKAction.playSoundFileNamed("pew-pew-lei.caf", waitForCompletion: false))
-    
     override func update(currentTime: CFTimeInterval) {
         //check if game is over
         
-        
-        
-        if gameOver == true {
+        if gameOver == true || health == 0{
             highScorePersistence()
-            let scene = ScoreScene(size: self.size)
-            let skView = self.view! as SKView
-            skView.ignoresSiblingOrder = true
-            scene.scaleMode = .ResizeFill
-            scene.size = skView.bounds.size
-            skView.presentScene(scene)
-            
+            gameOverScene()
         }
         
         checkIfNumHitTheBottom()
@@ -145,6 +200,15 @@ class PlayScene: SKScene {
                 gameOver = true
             }
         }
+    }
+    
+    func gameOverScene() {
+        let scene = ScoreScene(size: self.size)
+        let skView = self.view! as SKView
+        skView.ignoresSiblingOrder = true
+        scene.scaleMode = .ResizeFill
+        scene.size = skView.bounds.size
+        skView.presentScene(scene)
     }
     
     func highScorePersistence() {
