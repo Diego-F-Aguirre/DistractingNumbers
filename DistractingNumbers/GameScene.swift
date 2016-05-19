@@ -11,6 +11,10 @@ import SpriteKit
 class GameScene: SKScene {
     
     let playButton = SKSpriteNode(imageNamed: "PlayButton")
+    let playTitle = SKSpriteNode(imageNamed: "PlayTitle")
+    var numContainer = SKSpriteNode()
+    var numContainerArray = [SKSpriteNode]()
+    var numToTouch = 1
     
     override func didMoveToView(view: SKView) {
         //BG Game Scene Music
@@ -19,10 +23,10 @@ class GameScene: SKScene {
         addChild(backgroundMusic)
         
         //Falling Circle
-        let fallingCircle = SKSpriteNode(imageNamed: "falling_circle")
-        fallingCircle.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame) - 85)
-        
-        self.addChild(fallingCircle)
+        spawnNumbersForever()
+//        let fallingCircle = SKSpriteNode(imageNamed: "falling_circle")
+//        fallingCircle.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame) - 85)
+//        self.addChild(fallingCircle)
         
         //PlayButton
         self.playButton.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame))
@@ -31,26 +35,48 @@ class GameScene: SKScene {
         self.addChild(self.playButton)
         
         //TitleLabel
-        let titleLabel = SKLabelNode(text: "Distraction")
-        titleLabel.fontName = "AvenirNext-Bold"
-        titleLabel.verticalAlignmentMode = .Top
-        titleLabel.position = (CGPoint(x: CGRectGetMidX(self.frame), y: CGRectGetMaxY(self.frame) - 60))
-        titleLabel.zPosition = 1
-        titleLabel.fontColor = UIColor.whiteColor()
-        titleLabel.fontSize = 50
         
-        self.addChild(titleLabel)
+        playTitle.position = (CGPoint(x: CGRectGetMidX(self.frame), y: CGRectGetMaxY(self.frame) - 120))
+        playTitle.zPosition = 1
+     
         
-        //Highest Score Label
-        let highScore = SKLabelNode(text: "Highest Score")
-        highScore.fontName = "AvenirNext-Bold"
-        highScore.verticalAlignmentMode = .Top
-        highScore.position = (CGPoint(x: CGRectGetMidX(self.frame), y: CGRectGetMinY(playButton.frame) - 60))
-        highScore.zPosition = 1
-        highScore.fontColor = UIColor.whiteColor()
-        highScore.fontSize = 36
+        self.addChild(playTitle)
+    }
+    
+    func spawnNumbers() {
         
-        self.addChild(highScore)
+        let minValue = self.size.width / 8
+        let maxValue = self.size.width - 36
+        let spawnPoint = CGFloat(arc4random_uniform(UInt32(maxValue - minValue)))
+        let action = SKAction.moveToY(-160, duration: 2.8)
+        let rand = CGFloat(arc4random_uniform(5))
+        
+        numContainer = SKSpriteNode(imageNamed: "CircleTrail")
+        numContainer.name = "CircleTrail"
+        numContainer.size = CGSize(width: numContainer.frame.width / rand, height: numContainer.frame.height / rand)
+        numContainer.anchorPoint = CGPointMake(0, 0)
+        numContainer.position = CGPoint(x: spawnPoint, y: self.size.height)
+        numContainer.runAction(SKAction.repeatActionForever(action))
+        numContainer.zPosition = 2
+        
+//        let numberLabel = SKLabelNode(fontNamed: "AvenirNext-Bold")
+//        numberLabel.text = "\(numToTouch)"
+//        numberLabel.name = "Label"
+//        numberLabel.zPosition = -1
+//        numberLabel.position = CGPointMake(CGRectGetMidX(numContainer.centerRect) + 36, CGRectGetMidY(numContainer.centerRect) + 36)
+//        numberLabel.horizontalAlignmentMode = .Center
+//        numberLabel.verticalAlignmentMode = .Center
+//        numberLabel.fontColor = UIColor.whiteColor()
+//        numberLabel.fontSize = 28
+        
+        addChild(numContainer)
+//        numContainer.addChild(numberLabel)
+        numContainerArray.append(numContainer)
+//        numToTouch += 1
+    }
+    
+    func spawnNumbersForever() {
+        runAction(SKAction.repeatActionForever(SKAction.sequence([SKAction.runBlock(spawnNumbers),SKAction.waitForDuration(0.4)])))
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
