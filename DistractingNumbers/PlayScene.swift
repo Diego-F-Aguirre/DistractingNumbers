@@ -18,7 +18,7 @@ class PlayScene: SKScene {
     var textureAtlas = SKTextureAtlas()
     var textureArray = [SKTexture]()
     var bear = SKSpriteNode()
-    var whiteFlashNode = SKSpriteNode()
+    var clawFlashNode = SKSpriteNode()
     
     var gameOver : Bool?
     var scoreLabel : SKLabelNode?
@@ -36,7 +36,7 @@ class PlayScene: SKScene {
         spawnNumbersForever()
         spawnRandomNumForever()
         
-        whiteFlash()
+        clawFlash()
         
         //bear Background
         bear = SKSpriteNode(imageNamed: "bear_1.png")
@@ -62,25 +62,25 @@ class PlayScene: SKScene {
             }
             if theNode.name == "FakeCircle" {
                 health -= 1
-                whiteFlashNode.hidden = false
-                runAction(SKAction.sequence([SKAction.waitForDuration(0.15), SKAction.runBlock(dismissWhiteFlash)]))
+                clawFlashNode.hidden = false
+                runAction(SKAction.sequence([SKAction.waitForDuration(0.15), SKAction.runBlock(dismissClawFlash)]))
                 runAction(SKAction.playSoundFileNamed("incorrect2.wav", waitForCompletion: false))
             }
         }
     }
     
-    func whiteFlash() {
-        whiteFlashNode.size = CGSize(width: self.size.width, height: self.size.height)
+    func clawFlash() {
+        clawFlashNode.size = CGSize(width: clawFlashNode.frame.width, height: clawFlashNode.frame.height)
         // REPLACE COLOR WITH THE BEAR CLAW IMAGE******************************************************
-        whiteFlashNode.color = .whiteColor()
-        whiteFlashNode.hidden = true
-        whiteFlashNode.position = CGPoint(x: CGRectGetMidX(view!.frame), y: CGRectGetMidY(view!.frame))
+        clawFlashNode = SKSpriteNode(imageNamed: "Claw")
+        clawFlashNode.hidden = true
+        clawFlashNode.position = CGPoint(x: CGRectGetMidX(view!.frame), y: CGRectGetMidY(view!.frame))
         
-        addChild(whiteFlashNode)
+        addChild(clawFlashNode)
     }
     
-    func dismissWhiteFlash() {
-        whiteFlashNode.hidden = true
+    func dismissClawFlash() {
+        clawFlashNode.hidden = true
     }
     
     func spawnNumbersForever() {
