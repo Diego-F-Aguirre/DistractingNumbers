@@ -28,14 +28,11 @@ class PlayScene: SKScene {
     var numToTouch = 1
     
     override func didMoveToView(view: SKView) {
-        
-        initializeValues()
-        
         self.backgroundColor = UIColor(red: 1.000, green: 0.000, blue: 0.184, alpha: 1.00)
         
+        initializeValues()
         spawnNumbersForever()
         spawnRandomNumForever()
-        
         clawFlash()
         
         //bear Background
@@ -71,7 +68,6 @@ class PlayScene: SKScene {
     
     func clawFlash() {
         clawFlashNode.size = CGSize(width: clawFlashNode.frame.width, height: clawFlashNode.frame.height)
-        // REPLACE COLOR WITH THE BEAR CLAW IMAGE******************************************************
         clawFlashNode = SKSpriteNode(imageNamed: "Claw")
         clawFlashNode.hidden = true
         clawFlashNode.position = CGPoint(x: CGRectGetMidX(view!.frame), y: CGRectGetMidY(view!.frame))
@@ -119,7 +115,7 @@ class PlayScene: SKScene {
         let maxValue = self.size.width - 36
         
         let spawnPoint = CGFloat(arc4random_uniform(UInt32(maxValue - minValue)))
-        let actualDuration = random(min: CGFloat(2.0), max: CGFloat(4.0))
+//        let actualDuration = random(min: CGFloat(2.0), max: CGFloat(4.0))
         let action = SKAction.moveToY(-160, duration: 2)
         
         let randomNumContainer = SKSpriteNode(imageNamed: "Circle")
@@ -151,7 +147,7 @@ class PlayScene: SKScene {
         let maxValue = self.size.width - 36
         
         let spawnPoint = CGFloat(arc4random_uniform(UInt32(maxValue - minValue)))
-        let actualDuration = random(min: CGFloat(2.0), max: CGFloat(4.0))
+//        let actualDuration = random(min: CGFloat(2.0), max: CGFloat(4.0))
         let action = SKAction.moveToY(-160, duration: 2)
         
         numContainer = SKSpriteNode(imageNamed: "Circle")
