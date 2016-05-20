@@ -16,10 +16,8 @@ class GameScene: SKScene {
     var numContainerArray = [SKSpriteNode]()
     
     override func didMoveToView(view: SKView) {
-        //BG Game Scene Music
-        let backgroundMusic = SKAudioNode(fileNamed: "menuSound.mp3")
-        backgroundMusic.autoplayLooped = true
-        addChild(backgroundMusic)
+        addChild(Music.introMusic())
+        
         
         //Falling BackgroundCircles
         spawnNumbersForever()
@@ -31,7 +29,6 @@ class GameScene: SKScene {
         self.addChild(self.playButton)
         
         //TitleLabel
-        
         playTitle.position = (CGPoint(x: CGRectGetMidX(self.frame), y: CGRectGetMaxY(self.frame) - 160))
         playTitle.zPosition = 1
      

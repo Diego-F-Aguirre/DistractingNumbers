@@ -42,9 +42,7 @@ class PlayScene: SKScene {
         self.addChild(bear)
         
         //BG Play Scene Music
-        let backgroundMusic = SKAudioNode(fileNamed: "round1.mp3")
-        backgroundMusic.autoplayLooped = true
-        addChild(backgroundMusic)
+        addChild(Music.playRound1())
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
@@ -55,7 +53,7 @@ class PlayScene: SKScene {
             if theNode.name == "Circle" {
                 self.removeChildrenInArray([self.nodeAtPoint(location)])
                 Scores.score+=1
-                runAction(SKAction.playSoundFileNamed("pop2.wav", waitForCompletion: false))
+                runAction(Music.popSound())
             }
             if theNode.name == "FakeCircle" {
                 health -= 1

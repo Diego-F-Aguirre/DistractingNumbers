@@ -14,8 +14,7 @@ class ScoreScene: SKScene {
     let menuButton = SKSpriteNode(imageNamed: "Menu")
     
     override func didMoveToView(view: SKView) {
-        
-        runAction(SKAction.playSoundFileNamed("gameEnded.wav", waitForCompletion: false))
+        runAction(Music.gameOver())
         
         guard let savedHighScore = NSUserDefaults.standardUserDefaults().objectForKey("savedHighScore") else {return}
         
