@@ -17,9 +17,6 @@ struct Scores {
 class PlayScene: SKScene {
     var textureAtlas = SKTextureAtlas()
     var textureArray = [SKTexture]()
-    var bear = SKSpriteNode()
-    var clawFlashNode = SKSpriteNode()
-    
     var gameOver : Bool?
     var scoreLabel : SKLabelNode?
     var health = 3
@@ -33,50 +30,34 @@ class PlayScene: SKScene {
         initializeValues()
         spawnNumbersForever()
         spawnRandomNumForever()
-        clawFlash()
         
-        //bear Background
-        bear = SKSpriteNode(imageNamed: "bear_1.png")
-        bear.position = CGPoint(x: CGRectGetMidX(view.frame), y: CGRectGetMidY(view.frame))
-        bear.zPosition = -5
-        self.addChild(bear)
+        Sprites.clawFlash()
+        Sprites.clawFlashNode.position = CGPoint(x: CGRectGetMidX(view.frame), y: CGRectGetMidY(view.frame))
+        addChild(Sprites.clawFlashNode)
         
-        //BG Play Scene Music
-        let backgroundMusic = SKAudioNode(fileNamed: "round1.mp3")
-        backgroundMusic.autoplayLooped = true
-        addChild(backgroundMusic)
+        Sprites.bearBG()
+        Sprites.bear.position = CGPoint(x: CGRectGetMidX(view.frame), y: CGRectGetMidY(view.frame))
+        addChild(Sprites.bear)
+        
+        addChild(Music.playRound1())
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        
         for touch: AnyObject in touches {
             let location = touch.locationInNode(self)
             let theNode = self.nodeAtPoint(location)
             if theNode.name == "Circle" {
                 self.removeChildrenInArray([self.nodeAtPoint(location)])
                 Scores.score+=1
-                runAction(SKAction.playSoundFileNamed("pop2.wav", waitForCompletion: false))
+                runAction(Music.popSound())
             }
             if theNode.name == "FakeCircle" {
                 health -= 1
-                clawFlashNode.hidden = false
-                runAction(SKAction.sequence([SKAction.waitForDuration(0.15), SKAction.runBlock(dismissClawFlash)]))
-                runAction(SKAction.playSoundFileNamed("incorrect2.wav", waitForCompletion: false))
+                Sprites.clawFlashNode.hidden = false
+                runAction(SKAction.sequence([SKAction.waitForDuration(0.15), SKAction.runBlock(Sprites.dismissClawFlash)]))
+                runAction(Music.incorrect())
             }
         }
-    }
-    
-    func clawFlash() {
-        clawFlashNode.size = CGSize(width: clawFlashNode.frame.width, height: clawFlashNode.frame.height)
-        clawFlashNode = SKSpriteNode(imageNamed: "Claw")
-        clawFlashNode.hidden = true
-        clawFlashNode.position = CGPoint(x: CGRectGetMidX(view!.frame), y: CGRectGetMidY(view!.frame))
-        
-        addChild(clawFlashNode)
-    }
-    
-    func dismissClawFlash() {
-        clawFlashNode.hidden = true
     }
     
     func spawnNumbersForever() {
@@ -88,7 +69,6 @@ class PlayScene: SKScene {
     }
     
     func initializeValues() {
-        
         Scores.score = 0
         gameOver = false
         health = 3
@@ -97,25 +77,15 @@ class PlayScene: SKScene {
         scoreLabel?.fontSize = 30
         scoreLabel?.fontColor = .whiteColor()
         scoreLabel?.position = CGPoint(x:CGRectGetMinX(self.frame) + 65, y:(CGRectGetMinY(self.frame) + 10));
-        self.addChild(scoreLabel!)
-        
-    }
-    
-    func random() -> CGFloat {
-        return CGFloat(Float(arc4random()) / 0xFFFFFFFF)
-    }
-    
-    func random(min min: CGFloat, max: CGFloat) -> CGFloat {
-        return random() * (max - min) + min
+        addChild(scoreLabel!)
     }
     
     func spawnRandomNumbers() {
-        
         let minValue = self.size.width / 8
         let maxValue = self.size.width - 36
         
         let spawnPoint = CGFloat(arc4random_uniform(UInt32(maxValue - minValue)))
-//        let actualDuration = random(min: CGFloat(2.0), max: CGFloat(4.0))
+        //let actualDuration = random(min: CGFloat(2.0), max: CGFloat(4.0))
         let action = SKAction.moveToY(-160, duration: 2)
         
         let randomNumContainer = SKSpriteNode(imageNamed: "Circle")
@@ -138,16 +108,14 @@ class PlayScene: SKScene {
         
         addChild(randomNumContainer)
         randomNumContainer.addChild(randomNumberLabel)
-        
     }
     
     func spawnNumbers() {
-        
         let minValue = self.size.width / 8
         let maxValue = self.size.width - 36
         
         let spawnPoint = CGFloat(arc4random_uniform(UInt32(maxValue - minValue)))
-//        let actualDuration = random(min: CGFloat(2.0), max: CGFloat(4.0))
+        //let actualDuration = random(min: CGFloat(2.0), max: CGFloat(4.0))
         let action = SKAction.moveToY(-160, duration: 2)
         
         numContainer = SKSpriteNode(imageNamed: "Circle")
@@ -175,13 +143,10 @@ class PlayScene: SKScene {
     }
     
     override func update(currentTime: CFTimeInterval) {
-        //check if game is over
-        
         if gameOver == true || health == 0{
             highScorePersistence()
             gameOverScene()
         }
-        
         checkIfNumHitTheBottom()
         updateScoreLabel()
     }

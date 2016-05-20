@@ -15,65 +15,34 @@ class ScoreScene: SKScene {
     
     override func didMoveToView(view: SKView) {
         
-        runAction(SKAction.playSoundFileNamed("gameEnded.wav", waitForCompletion: false))
-        
         guard let savedHighScore = NSUserDefaults.standardUserDefaults().objectForKey("savedHighScore") else {return}
         
-        self.backgroundColor = UIColor(red: 1.000, green: 0.000, blue: 0.184, alpha: 1.00)
+        runAction(Music.gameOver())
+                
+        backgroundColor = UIColor(red: 1.000, green: 0.000, blue: 0.184, alpha: 1.00)
+
+        Labels.createScoreTitle()
+        Labels.scoreTitle.position = (CGPoint(x: CGRectGetMidX(self.frame), y: CGRectGetMaxY(self.frame) - 60))
+        addChild(Labels.scoreTitle)
         
-        // SCORE TITLE
-        let scoreTitle = SKLabelNode(text: "Score:")
-        scoreTitle.fontName = "AvenirNext-Bold"
-        scoreTitle.verticalAlignmentMode = .Top
-        scoreTitle.position = (CGPoint(x: CGRectGetMidX(self.frame), y: CGRectGetMaxY(self.frame) - 60))
-        scoreTitle.zPosition = 1
-        scoreTitle.fontColor = UIColor.whiteColor()
-        scoreTitle.fontSize = 60
+        Labels.createScoreLabel()
+        Labels.scoreLabel.position = (CGPoint(x: CGRectGetMidX(self.frame), y: CGRectGetMaxY(Labels.scoreTitle.frame) - 60))
+        addChild(Labels.scoreLabel)
         
-        self.addChild(scoreTitle)
-        
-        // SCORE LABEL
-        let scoreLabel = SKLabelNode(text: "\(Scores.score)")
-        scoreLabel.fontName = "AvenirNext-Bold"
-        scoreLabel.verticalAlignmentMode = .Top
-        scoreLabel.position = (CGPoint(x: CGRectGetMidX(self.frame), y: CGRectGetMaxY(scoreTitle.frame) - 60))
-        scoreLabel.zPosition = 1
-        scoreLabel.fontColor = UIColor.whiteColor()
-        scoreLabel.fontSize = 55
-        
-        self.addChild(scoreLabel)
-        
-        // PLAY AGAIN BUTTON
         playAgainButton.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame) + 30)
-        //playAgainButton.size = CGSize(width: 250, height: 250)
-        self.addChild(playAgainButton)
+        addChild(playAgainButton)
         
-        // MENU BUTTON
         menuButton.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame) - 60)
-        self.addChild(menuButton)
+        addChild(menuButton)
         
-        //HIGH SCORE LABEL
-        let highScore = SKLabelNode(text: "Your High Score:")
-        highScore.fontName = "AvenirNext-Bold"
-        highScore.verticalAlignmentMode = .Top
-        highScore.position = (CGPoint(x: CGRectGetMidX(self.frame), y: CGRectGetMinY(menuButton.frame) - 100))
-        highScore.zPosition = 1
-        highScore.fontColor = UIColor.whiteColor()
-        highScore.fontSize = 32
+        Labels.createHighScore()
+        Labels.highScore.position = (CGPoint(x: CGRectGetMidX(self.frame), y: CGRectGetMinY(menuButton.frame) - 100))
+        addChild(Labels.highScore)
         
-        self.addChild(highScore)
-        
-        // SCORE LABEL 2
-        let highestScore = SKLabelNode(text: "\(savedHighScore)")
-        highestScore.fontName = "AvenirNext-Bold"
-        highestScore.verticalAlignmentMode = .Top
-        highestScore.position = (CGPoint(x: CGRectGetMidX(self.frame), y: CGRectGetMaxY(highScore.frame) - 60))
-        highestScore.zPosition = 1
-        highestScore.fontColor = UIColor.whiteColor()
-        highestScore.fontSize = 28
-        
-        self.addChild(highestScore)
-        
+        Labels.highestScore = SKLabelNode(text: "\(savedHighScore)")
+        Labels.createHighestScore()
+        Labels.highestScore.position = (CGPoint(x: CGRectGetMidX(self.frame), y: CGRectGetMaxY(Labels.highScore.frame) - 60))
+        addChild(Labels.highestScore)
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
