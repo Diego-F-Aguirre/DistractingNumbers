@@ -18,26 +18,18 @@ class GameScene: SKScene {
     override func didMoveToView(view: SKView) {
         addChild(Music.introMusic())
         
-        
-        //Falling BackgroundCircles
         spawnNumbersForever()
         
-        //PlayButton
-        self.playButton.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame) - 60)
-        self.backgroundColor = UIColor(red: 1.000, green: 0.000, blue: 0.184, alpha: 1.00)
+        playButton.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame) - 60)
+        backgroundColor = UIColor(red: 1.000, green: 0.000, blue: 0.184, alpha: 1.00)
+        addChild(playButton)
         
-        self.addChild(self.playButton)
-        
-        //TitleLabel
         playTitle.position = (CGPoint(x: CGRectGetMidX(self.frame), y: CGRectGetMaxY(self.frame) - 160))
         playTitle.zPosition = 1
-     
-        
-        self.addChild(playTitle)
+        addChild(playTitle)
     }
     
     func spawnNumbers() {
-        
         let minValue = self.size.width / 8
         let maxValue = self.size.width - 36
         let spawnPoint = CGFloat(arc4random_uniform(UInt32(maxValue - minValue)))
@@ -72,10 +64,6 @@ class GameScene: SKScene {
                 skView.presentScene(scene)
             }
         }
-    }
-    
-    override func update(currentTime: CFTimeInterval) {
-        
     }
 }
 

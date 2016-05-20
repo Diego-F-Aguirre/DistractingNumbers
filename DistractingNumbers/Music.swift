@@ -34,4 +34,8 @@ class Music: SKAudioNode {
     static func popSound() -> SKAction {
         return SKAction.playSoundFileNamed("pop2.wav", waitForCompletion: false)
     }
+    
+    static func incorrect() -> SKAction {
+        return SKAction.playSoundFileNamed("incorrect2.wav", waitForCompletion: false)
+    }
 }
