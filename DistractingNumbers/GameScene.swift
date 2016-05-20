@@ -14,7 +14,6 @@ class GameScene: SKScene {
     let playTitle = SKSpriteNode(imageNamed: "PlayTitle")
     var numContainer = SKSpriteNode()
     var numContainerArray = [SKSpriteNode]()
-    var numToTouch = 1
     
     override func didMoveToView(view: SKView) {
         //BG Game Scene Music
@@ -22,21 +21,18 @@ class GameScene: SKScene {
         backgroundMusic.autoplayLooped = true
         addChild(backgroundMusic)
         
-        //Falling Circle
+        //Falling BackgroundCircles
         spawnNumbersForever()
-//        let fallingCircle = SKSpriteNode(imageNamed: "falling_circle")
-//        fallingCircle.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame) - 85)
-//        self.addChild(fallingCircle)
         
         //PlayButton
-        self.playButton.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame))
+        self.playButton.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame) - 60)
         self.backgroundColor = UIColor(red: 1.000, green: 0.000, blue: 0.184, alpha: 1.00)
         
         self.addChild(self.playButton)
         
         //TitleLabel
         
-        playTitle.position = (CGPoint(x: CGRectGetMidX(self.frame), y: CGRectGetMaxY(self.frame) - 120))
+        playTitle.position = (CGPoint(x: CGRectGetMidX(self.frame), y: CGRectGetMaxY(self.frame) - 160))
         playTitle.zPosition = 1
      
         
@@ -59,20 +55,8 @@ class GameScene: SKScene {
         numContainer.runAction(SKAction.repeatActionForever(action))
         numContainer.zPosition = 2
         
-//        let numberLabel = SKLabelNode(fontNamed: "AvenirNext-Bold")
-//        numberLabel.text = "\(numToTouch)"
-//        numberLabel.name = "Label"
-//        numberLabel.zPosition = -1
-//        numberLabel.position = CGPointMake(CGRectGetMidX(numContainer.centerRect) + 36, CGRectGetMidY(numContainer.centerRect) + 36)
-//        numberLabel.horizontalAlignmentMode = .Center
-//        numberLabel.verticalAlignmentMode = .Center
-//        numberLabel.fontColor = UIColor.whiteColor()
-//        numberLabel.fontSize = 28
-        
         addChild(numContainer)
-//        numContainer.addChild(numberLabel)
         numContainerArray.append(numContainer)
-//        numToTouch += 1
     }
     
     func spawnNumbersForever() {
