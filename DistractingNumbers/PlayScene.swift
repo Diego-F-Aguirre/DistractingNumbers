@@ -20,6 +20,7 @@ class PlayScene: SKScene {
     var gameOver : Bool?
     var scoreLabel : SKLabelNode?
     var health = 3
+    var randomNumContainerSet = Set<SKSpriteNode>()
     var numContainer = SKSpriteNode()
     var numContainerArray = [SKSpriteNode]()
     var numToTouch = 1
@@ -28,8 +29,11 @@ class PlayScene: SKScene {
         self.backgroundColor = UIColor(red: 1.000, green: 0.000, blue: 0.184, alpha: 1.00)
         
         initializeValues()
-        spawnNumbersForever()
-        spawnRandomNumForever()
+        
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(3 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
+            self.spawnNumbersForever()
+            self.spawnRandomNumForever()
+        }
         
         Sprites.clawFlash()
         Sprites.clawFlashNode.position = CGPoint(x: CGRectGetMidX(view.frame), y: CGRectGetMidY(view.frame))
@@ -108,6 +112,7 @@ class PlayScene: SKScene {
         
         addChild(randomNumContainer)
         randomNumContainer.addChild(randomNumberLabel)
+        randomNumContainerSet.insert(randomNumContainer)
     }
     
     func spawnNumbers() {
@@ -142,6 +147,16 @@ class PlayScene: SKScene {
         numToTouch += 1
     }
     
+    func evictOffScreenRandomNumNodes() {
+        let results = randomNumContainerSet.filter({$0.position.y < -$0.size.height / 2.0})
+        
+        results.forEach { (node) in
+            node.removeFromParent()
+            randomNumContainerSet.remove(node)
+        }
+        
+    }
+    
     override func update(currentTime: CFTimeInterval) {
         if gameOver == true || health == 0{
             highScorePersistence()
@@ -149,6 +164,7 @@ class PlayScene: SKScene {
         }
         checkIfNumHitTheBottom()
         updateScoreLabel()
+        evictOffScreenRandomNumNodes()
     }
     
     func updateScoreLabel() {
