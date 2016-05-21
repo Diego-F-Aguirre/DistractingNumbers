@@ -35,16 +35,22 @@ class GameScene: SKScene {
         let spawnPoint = CGFloat(arc4random_uniform(UInt32(maxValue - minValue)))
         let action = SKAction.moveToY(-160, duration: 2.8)
         let rand = CGFloat(arc4random_uniform(5))
+        guard let numContainerParticles = SKEmitterNode(fileNamed: "CircleTrail.sks") else { return }
         
-        numContainer = SKSpriteNode(imageNamed: "CircleTrail")
-        numContainer.name = "CircleTrail"
+        numContainer = SKSpriteNode(imageNamed: "Circle")
+        numContainer.name = "Circle"
         numContainer.size = CGSize(width: numContainer.frame.width / rand, height: numContainer.frame.height / rand)
         numContainer.anchorPoint = CGPointMake(0, 0)
         numContainer.position = CGPoint(x: spawnPoint, y: self.size.height)
         numContainer.runAction(SKAction.repeatActionForever(action))
         numContainer.zPosition = 2
         
+        numContainerParticles.particleSize = numContainer.size
+        // Todo center particles to numContainer
+        
+        
         addChild(numContainer)
+        numContainer.addChild(numContainerParticles)
         numContainerArray.append(numContainer)
     }
     
