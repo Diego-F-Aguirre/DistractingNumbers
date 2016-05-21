@@ -14,11 +14,20 @@ struct Scores {
     static var highScore = NSUserDefaults.standardUserDefaults().objectForKey("savedHighScore")
 }
 
-class PlayScene: SKScene {
+struct PhysicsCategory {
+    static let circle: UInt32 = 0x1 << 0
+    static let randomCircle: UInt32 = 0x1 << 1
+    static let leftWall: UInt32 = 0x1 << 2
+    static let rightWall: UInt32 = 0x1 << 3
+}
+
+class PlayScene: SKScene, SKPhysicsContactDelegate {
     var textureAtlas = SKTextureAtlas()
     var textureArray = [SKTexture]()
     var bear = SKSpriteNode()
     var clawFlashNode = SKSpriteNode()
+    var leftBorderWall = SKSpriteNode()
+    var rightBorderWall = SKSpriteNode()
     
     var gameOver : Bool?
     var scoreLabel : SKLabelNode?
@@ -32,9 +41,13 @@ class PlayScene: SKScene {
         
         initializeValues()
         spawnNumbersForever()
-        spawnRandomNumForever()
         clawFlash()
         
+        leftBarrierWall()
+        rightBarrierWall()
+    
+        spawnRandomNumForever()
+    
         //bear Background
         bear = SKSpriteNode(imageNamed: "bear_1.png")
         bear.position = CGPoint(x: CGRectGetMidX(view.frame), y: CGRectGetMidY(view.frame))
@@ -80,7 +93,7 @@ class PlayScene: SKScene {
     }
     
     func spawnNumbersForever() {
-        runAction(SKAction.repeatActionForever(SKAction.sequence([SKAction.runBlock(spawnNumbers),SKAction.waitForDuration(1.3)])))
+        runAction(SKAction.repeatActionForever(SKAction.sequence([SKAction.runBlock(spawnNumbers),SKAction.waitForDuration(1)])))
     }
     
     func spawnRandomNumForever() {
@@ -122,9 +135,23 @@ class PlayScene: SKScene {
         randomNumContainer.name = "FakeCircle"
         randomNumContainer.size = CGSize(width: 72, height: 72)
         randomNumContainer.anchorPoint = CGPointMake(0, 0)
-        randomNumContainer.position = CGPoint(x: spawnPoint, y: self.size.height)
+        let position = CGPoint(x: spawnPoint, y: self.size.height)
+        randomNumContainer.position = position
         randomNumContainer.runAction(SKAction.repeatActionForever(action))
         randomNumContainer.zPosition = -1
+        randomNumContainer.physicsBody?.collisionBitMask = 0
+        
+        
+        //Physics
+        randomNumContainer.physicsBody = SKPhysicsBody(circleOfRadius: randomNumContainer.size.width + 3)
+        randomNumContainer.physicsBody?.categoryBitMask = PhysicsCategory.randomCircle
+        randomNumContainer.physicsBody?.collisionBitMask = PhysicsCategory.circle | PhysicsCategory.leftWall | PhysicsCategory.rightWall
+        randomNumContainer.physicsBody?.contactTestBitMask = PhysicsCategory.circle | PhysicsCategory.leftWall | PhysicsCategory.rightWall
+        randomNumContainer.physicsBody?.usesPreciseCollisionDetection = true
+        randomNumContainer.physicsBody?.dynamic = true
+        randomNumContainer.physicsBody?.affectedByGravity = false
+        randomNumContainer.physicsBody?.restitution = 0.4
+        randomNumContainer.physicsBody?.allowsRotation = false
         
         let randomNumberLabel = SKLabelNode(fontNamed: "AvenirNext-Bold")
         randomNumberLabel.text = String(arc4random_uniform(100))
@@ -136,8 +163,11 @@ class PlayScene: SKScene {
         randomNumberLabel.fontColor = UIColor.whiteColor()
         randomNumberLabel.fontSize = 28
         
-        addChild(randomNumContainer)
-        randomNumContainer.addChild(randomNumberLabel)
+        if positionIsEmpty(position) {
+            randomNumContainer.position = position
+            addChild(randomNumContainer)
+            randomNumContainer.addChild(randomNumberLabel)
+        }
         
     }
     
@@ -154,9 +184,22 @@ class PlayScene: SKScene {
         numContainer.name = "Circle"
         numContainer.size = CGSize(width: 72, height: 72)
         numContainer.anchorPoint = CGPointMake(0, 0)
-        numContainer.position = CGPoint(x: spawnPoint, y: self.size.height)
+        let position = CGPoint(x: spawnPoint, y: self.size.height)
+        numContainer.position = position
         numContainer.runAction(SKAction.repeatActionForever(action))
         numContainer.zPosition = 2
+        numContainer.physicsBody?.collisionBitMask = 0
+        
+        //Physics
+        numContainer.physicsBody = SKPhysicsBody(circleOfRadius: numContainer.size.width + 3)
+        numContainer.physicsBody?.categoryBitMask = PhysicsCategory.circle
+        numContainer.physicsBody?.collisionBitMask = PhysicsCategory.randomCircle | PhysicsCategory.leftWall | PhysicsCategory.rightWall
+        numContainer.physicsBody?.contactTestBitMask = PhysicsCategory.randomCircle | PhysicsCategory.leftWall | PhysicsCategory.rightWall
+        numContainer.physicsBody?.usesPreciseCollisionDetection = true
+        numContainer.physicsBody?.dynamic = true
+        numContainer.physicsBody?.affectedByGravity = false
+        numContainer.physicsBody?.restitution = 0.4
+        numContainer.physicsBody?.allowsRotation = false
         
         let numberLabel = SKLabelNode(fontNamed: "AvenirNext-Bold")
         numberLabel.text = "\(numToTouch)"
@@ -168,10 +211,13 @@ class PlayScene: SKScene {
         numberLabel.fontColor = UIColor.whiteColor()
         numberLabel.fontSize = 28
         
-        addChild(numContainer)
-        numContainer.addChild(numberLabel)
-        numContainerArray.append(numContainer)
-        numToTouch += 1
+        if positionIsEmpty(position) {
+            numContainer.position = position
+            addChild(numContainer)
+            numContainer.addChild(numberLabel)
+            numContainerArray.append(numContainer)
+            numToTouch += 1
+        }
     }
     
     override func update(currentTime: CFTimeInterval) {
@@ -215,6 +261,97 @@ class PlayScene: SKScene {
             NSUserDefaults.standardUserDefaults().setObject(savedHighScore, forKey: "savedHighScore")
         }
     }
+    
+    func positionIsEmpty(point: CGPoint) -> Bool {
+        self.enumerateChildNodesWithName("dotted", usingBlock: {
+            node, stop in
+            
+            let dot = node as! SKSpriteNode
+            if (CGRectContainsPoint(dot.frame, point)) {
+                return
+            }
+        })
+        return true
+    }
+    
+    func didBeginContact(contact: SKPhysicsContact) {
+        
+        let firstBody = contact.bodyA.node as! SKSpriteNode
+        let secondBody = contact.bodyB.node as! SKSpriteNode
+        
+        if ((firstBody.name == "Circle") && (secondBody.name == "RandomCircle")) {
+            collisionBall(firstBody, circle2: secondBody)
+        } else if ((firstBody.name == "RandomCircle") && (secondBody.name == "Circle")) {
+            collisionBall(secondBody, circle2: firstBody)
+        } else if ((firstBody.name == "RandomCircle") && (secondBody.name == "LeftBorderWall")) {
+            collisionWall(firstBody)
+        } else if ((firstBody.name == "RandomCircle") && (secondBody.name == "RightBorderWall")) {
+            collisionWall(firstBody)
+        } else if ((firstBody.name == "RightBorderWall") && (secondBody.name == "RandomCircle")) {
+            collisionWall(firstBody)
+        } else if ((firstBody.name == "LeftBorderWall") && (secondBody.name == "RandomCircle")) {
+            collisionWall(firstBody)
+        }else if ((firstBody.name == "LeftBorderWall") && (secondBody.name == "Circle")) {
+            collisionWall(secondBody)
+        } else if ((firstBody.name == "Circle") && (secondBody.name == "LeftBorderWall")) {
+            collisionWall(firstBody)
+        } else if ((firstBody.name == "RightBorderWall") && (secondBody.name == "Circle")) {
+            collisionWall(secondBody)
+        } else if ((firstBody.name == "Circle") && (secondBody.name == "RightBorderWall")) {
+            collisionWall(firstBody)
+        }
+        
+    }
+    
+    func collisionBall(circle1: SKSpriteNode, circle2: SKSpriteNode) {
+        circle1.physicsBody?.affectedByGravity = true
+        circle1.physicsBody?.dynamic = true
+        
+        circle2.physicsBody?.affectedByGravity = true
+        circle2.physicsBody?.dynamic = true
+    }
+    
+    func collisionWall(circle: SKSpriteNode) {
+        circle.physicsBody?.affectedByGravity = true
+        circle.physicsBody?.dynamic = true
+    }
+    
+    func leftBarrierWall() {
+        leftBorderWall.color = UIColor.purpleColor()
+        leftBorderWall.name = "LeftBorderWall"
+        leftBorderWall.zPosition = 1
+        leftBorderWall.size = CGSize(width: 20, height: CGRectGetMaxY(self.view!.frame))
+        leftBorderWall.position = CGPoint(x: CGRectGetMinX(self.view!.frame) - 5, y: CGRectGetMidY(self.view!.frame))
+        
+        //Physics
+        leftBorderWall.physicsBody = SKPhysicsBody(rectangleOfSize: leftBorderWall.size)
+        leftBorderWall.physicsBody?.categoryBitMask = PhysicsCategory.leftWall
+        leftBorderWall.physicsBody?.contactTestBitMask = PhysicsCategory.circle | PhysicsCategory.randomCircle
+        leftBorderWall.physicsBody?.collisionBitMask = PhysicsCategory.circle | PhysicsCategory.randomCircle
+        leftBorderWall.physicsBody?.affectedByGravity = false
+        leftBorderWall.physicsBody?.dynamic = false
+        
+        addChild(leftBorderWall)
+    }
+    
+    func rightBarrierWall() {
+        rightBorderWall.color = UIColor.purpleColor()
+        rightBorderWall.name = "RightBorderWall"
+        rightBorderWall.zPosition = 1
+        rightBorderWall.size = CGSize(width: 20, height: CGRectGetMaxY(self.view!.frame))
+        rightBorderWall.position = CGPoint(x: CGRectGetMaxX(self.view!.frame) + 5, y: CGRectGetMidY(self.view!.frame))
+        
+        //Physics
+        rightBorderWall.physicsBody = SKPhysicsBody(rectangleOfSize: rightBorderWall.size)
+        rightBorderWall.physicsBody?.categoryBitMask = PhysicsCategory.rightWall
+        rightBorderWall.physicsBody?.contactTestBitMask = PhysicsCategory.circle | PhysicsCategory.randomCircle
+        rightBorderWall.physicsBody?.collisionBitMask = PhysicsCategory.circle | PhysicsCategory.randomCircle
+        rightBorderWall.physicsBody?.affectedByGravity = false
+        rightBorderWall.physicsBody?.dynamic = false
+    
+        addChild(rightBorderWall)
+    }
+
 }
 
 
