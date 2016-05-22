@@ -154,7 +154,6 @@ class PlayScene: SKScene {
             node.removeFromParent()
             randomNumContainerSet.remove(node)
         }
-        
     }
     
     override func update(currentTime: CFTimeInterval) {

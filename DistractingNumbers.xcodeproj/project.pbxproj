@@ -11,6 +11,8 @@
 		BC9DE3771CEF64C1004A0276 /* Music.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9DE3761CEF64C1004A0276 /* Music.swift */; };
 		BC9DE37C1CEF75B6004A0276 /* Sprites.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9DE37B1CEF75B6004A0276 /* Sprites.swift */; };
 		BC9DE37E1CEF7FD3004A0276 /* Labels.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9DE37D1CEF7FD3004A0276 /* Labels.swift */; };
+		BC9DE3811CEFBFD6004A0276 /* CircleTrail.sks in Resources */ = {isa = PBXBuildFile; fileRef = BC9DE37F1CEFBFD6004A0276 /* CircleTrail.sks */; };
+		BC9DE3821CEFBFD6004A0276 /* spark.png in Resources */ = {isa = PBXBuildFile; fileRef = BC9DE3801CEFBFD6004A0276 /* spark.png */; };
 		BCD824541CEA2337008216FC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD824531CEA2337008216FC /* AppDelegate.swift */; };
 		BCD8245A1CEA2337008216FC /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD824591CEA2337008216FC /* GameViewController.swift */; };
 		BCD8245D1CEA2337008216FC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BCD8245B1CEA2337008216FC /* Main.storyboard */; };
@@ -34,6 +36,8 @@
 		BC9DE3761CEF64C1004A0276 /* Music.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Music.swift; sourceTree = "<group>"; };
 		BC9DE37B1CEF75B6004A0276 /* Sprites.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sprites.swift; sourceTree = "<group>"; };
 		BC9DE37D1CEF7FD3004A0276 /* Labels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Labels.swift; sourceTree = "<group>"; };
+		BC9DE37F1CEFBFD6004A0276 /* CircleTrail.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = CircleTrail.sks; sourceTree = "<group>"; };
+		BC9DE3801CEFBFD6004A0276 /* spark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = spark.png; sourceTree = "<group>"; };
 		BCD824501CEA2337008216FC /* DistractingNumbers.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DistractingNumbers.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCD824531CEA2337008216FC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BCD824591CEA2337008216FC /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
@@ -81,6 +85,8 @@
 				BC9DE3761CEF64C1004A0276 /* Music.swift */,
 				BC9DE37B1CEF75B6004A0276 /* Sprites.swift */,
 				BC9DE37D1CEF7FD3004A0276 /* Labels.swift */,
+				BC9DE37F1CEFBFD6004A0276 /* CircleTrail.sks */,
+				BC9DE3801CEFBFD6004A0276 /* spark.png */,
 				C4E9C4371CEA6F3600959B41 /* Sounds */,
 				BCD8245E1CEA2337008216FC /* Assets.xcassets */,
 			);
@@ -202,6 +208,8 @@
 			files = (
 				DD3AF5F61CED298700079BEB /* incorrect.mp3 in Resources */,
 				C4E9C4341CEA690E00959B41 /* GameScene.sks in Resources */,
+				BC9DE3811CEFBFD6004A0276 /* CircleTrail.sks in Resources */,
+				BC9DE3821CEFBFD6004A0276 /* spark.png in Resources */,
 				DD3AF5F71CED298700079BEB /* incorrect2.wav in Resources */,
 				DD3AF5F11CED295600079BEB /* round1.mp3 in Resources */,
 				BCD824621CEA2337008216FC /* LaunchScreen.storyboard in Resources */,
