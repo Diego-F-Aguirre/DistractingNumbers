@@ -47,7 +47,6 @@ class GameScene: SKScene {
         
         numContainerParticles.particleSize = numContainer.size
         
-        
         addChild(numContainer)
         numContainer.addChild(numContainerParticles)
         numContainerSet.insert(numContainer)

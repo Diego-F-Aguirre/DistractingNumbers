@@ -9,12 +9,20 @@
 import SpriteKit
 import UIKit
 
+struct PhysicsCategory {
+    static let circle: UInt32 = 0x1 << 0
+    static let leftWall: UInt32 = 0x1 << 1
+    static let rightWall: UInt32 = 0x1 << 2
+    static let randomCircle: UInt32 = 0x1 << 3
+    static let pushCircle: UInt32 = 0x1 << 4
+}
+
 struct Scores {
     static var score = 0
     static var highScore = NSUserDefaults.standardUserDefaults().objectForKey("savedHighScore")
 }
 
-class PlayScene: SKScene {
+class PlayScene: SKScene, SKPhysicsContactDelegate {
     var textureAtlas = SKTextureAtlas()
     var textureArray = [SKTexture]()
     var gameOver : Bool?
@@ -24,9 +32,14 @@ class PlayScene: SKScene {
     var numContainer = SKSpriteNode()
     var numContainerArray = [SKSpriteNode]()
     var numToTouch = 1
+    var leftBorderWall = SKSpriteNode()
+    var rightBorderWall = SKSpriteNode()
+    var pushCircle = SKSpriteNode()
     
     override func didMoveToView(view: SKView) {
         self.backgroundColor = UIColor(red: 1.000, green: 0.000, blue: 0.184, alpha: 1.00)
+        
+        self.physicsWorld.contactDelegate = self
         
         initializeValues()
         
@@ -34,6 +47,10 @@ class PlayScene: SKScene {
             self.spawnNumbersForever()
             self.spawnRandomNumForever()
         }
+        
+        leftBarrierWall()
+        rightBarrierWall()
+        spawnPushSphere()
         
         Sprites.clawFlash()
         Sprites.clawFlashNode.position = CGPoint(x: CGRectGetMidX(view.frame), y: CGRectGetMidY(view.frame))
@@ -72,6 +89,7 @@ class PlayScene: SKScene {
         runAction(SKAction.repeatActionForever(SKAction.sequence([SKAction.runBlock(spawnRandomNumbers),SKAction.waitForDuration(0.5)])))
     }
     
+    // Todo: add Score Label to Labels class
     func initializeValues() {
         Scores.score = 0
         gameOver = false
@@ -90,15 +108,24 @@ class PlayScene: SKScene {
         
         let spawnPoint = CGFloat(arc4random_uniform(UInt32(maxValue - minValue)))
         //let actualDuration = random(min: CGFloat(2.0), max: CGFloat(4.0))
-        let action = SKAction.moveToY(-160, duration: 2)
+        //        let action = SKAction.moveToY(-160, duration: 2)
         
         let randomNumContainer = SKSpriteNode(imageNamed: "Circle")
         randomNumContainer.name = "FakeCircle"
         randomNumContainer.size = CGSize(width: 72, height: 72)
         randomNumContainer.anchorPoint = CGPointMake(0, 0)
         randomNumContainer.position = CGPoint(x: spawnPoint, y: self.size.height)
-        randomNumContainer.runAction(SKAction.repeatActionForever(action))
+        //        randomNumContainer.runAction(SKAction.repeatActionForever(action))
         randomNumContainer.zPosition = -1
+        
+        //Physics
+        randomNumContainer.physicsBody = SKPhysicsBody(circleOfRadius: randomNumContainer.size.width / 2)
+        randomNumContainer.physicsBody?.categoryBitMask = PhysicsCategory.randomCircle
+        randomNumContainer.physicsBody?.collisionBitMask = PhysicsCategory.leftWall | PhysicsCategory.rightWall | PhysicsCategory.circle | PhysicsCategory.pushCircle | PhysicsCategory.randomCircle
+        randomNumContainer.physicsBody?.contactTestBitMask = PhysicsCategory.leftWall | PhysicsCategory.rightWall | PhysicsCategory.circle | PhysicsCategory.pushCircle | PhysicsCategory.randomCircle
+        randomNumContainer.physicsBody?.dynamic = true
+        randomNumContainer.physicsBody?.linearDamping = 10
+        randomNumContainer.physicsBody?.allowsRotation = false
         
         let randomNumberLabel = SKLabelNode(fontNamed: "AvenirNext-Bold")
         randomNumberLabel.text = String(arc4random_uniform(100))
@@ -121,15 +148,24 @@ class PlayScene: SKScene {
         
         let spawnPoint = CGFloat(arc4random_uniform(UInt32(maxValue - minValue)))
         //let actualDuration = random(min: CGFloat(2.0), max: CGFloat(4.0))
-        let action = SKAction.moveToY(-160, duration: 2)
+        //        let action = SKAction.moveToY(-160, duration: 2)
         
         numContainer = SKSpriteNode(imageNamed: "Circle")
         numContainer.name = "Circle"
         numContainer.size = CGSize(width: 72, height: 72)
         numContainer.anchorPoint = CGPointMake(0, 0)
         numContainer.position = CGPoint(x: spawnPoint, y: self.size.height)
-        numContainer.runAction(SKAction.repeatActionForever(action))
+        //        numContainer.runAction(SKAction.repeatActionForever(action))
         numContainer.zPosition = 2
+        
+        //Physics
+        numContainer.physicsBody = SKPhysicsBody(circleOfRadius: numContainer.size.width / 2)
+        numContainer.physicsBody?.categoryBitMask = PhysicsCategory.circle
+        numContainer.physicsBody?.collisionBitMask = PhysicsCategory.leftWall | PhysicsCategory.rightWall | PhysicsCategory.randomCircle | PhysicsCategory.pushCircle | PhysicsCategory.circle
+        numContainer.physicsBody?.contactTestBitMask = PhysicsCategory.leftWall | PhysicsCategory.rightWall | PhysicsCategory.randomCircle | PhysicsCategory.pushCircle | PhysicsCategory.circle
+        numContainer.physicsBody?.dynamic = true
+        numContainer.physicsBody?.allowsRotation = false
+        numContainer.physicsBody?.linearDamping = 8
         
         let numberLabel = SKLabelNode(fontNamed: "AvenirNext-Bold")
         numberLabel.text = "\(numToTouch)"
@@ -145,6 +181,114 @@ class PlayScene: SKScene {
         numContainer.addChild(numberLabel)
         numContainerArray.append(numContainer)
         numToTouch += 1
+    }
+    
+    func spawnPushSphere() {
+        pushCircle = SKSpriteNode(imageNamed: "Push_Circle")
+        pushCircle.name = "PushCircle"
+        pushCircle.zPosition = 1
+        pushCircle.size = CGSize(width: 65, height: 65)
+        pushCircle.position = CGPoint(x: CGRectGetMidX(self.view!.frame), y: CGRectGetMidY(self.view!.frame))
+        
+        
+        //Physics
+        pushCircle.physicsBody = SKPhysicsBody(circleOfRadius: pushCircle.size.width / 2)
+        pushCircle.physicsBody?.categoryBitMask = PhysicsCategory.pushCircle
+        pushCircle.physicsBody?.contactTestBitMask = PhysicsCategory.circle | PhysicsCategory.randomCircle
+        pushCircle.physicsBody?.collisionBitMask = PhysicsCategory.circle | PhysicsCategory.randomCircle
+        pushCircle.physicsBody?.dynamic = false
+        
+        addChild(pushCircle)
+    }
+    
+    func leftBarrierWall() {
+        leftBorderWall.color = UIColor.purpleColor()
+        leftBorderWall.name = "LeftBorderWall"
+        leftBorderWall.zPosition = 1
+        leftBorderWall.size = CGSize(width: 20, height: CGRectGetMaxY(self.view!.frame))
+        leftBorderWall.position = CGPoint(x: CGRectGetMinX(self.view!.frame) - 10, y: CGRectGetMidY(self.view!.frame))
+        
+        //Physics
+        leftBorderWall.physicsBody = SKPhysicsBody(rectangleOfSize: leftBorderWall.size)
+        leftBorderWall.physicsBody?.categoryBitMask = PhysicsCategory.leftWall
+        leftBorderWall.physicsBody?.contactTestBitMask = PhysicsCategory.circle | PhysicsCategory.randomCircle
+        leftBorderWall.physicsBody?.collisionBitMask = PhysicsCategory.circle | PhysicsCategory.randomCircle
+        leftBorderWall.physicsBody?.affectedByGravity = false
+        leftBorderWall.physicsBody?.dynamic = false
+        
+        
+        addChild(leftBorderWall)
+    }
+    
+    func rightBarrierWall() {
+        rightBorderWall.color = UIColor.purpleColor()
+        rightBorderWall.name = "RightBorderWall"
+        rightBorderWall.zPosition = 1
+        rightBorderWall.size = CGSize(width: 20, height: CGRectGetMaxY(self.view!.frame))
+        rightBorderWall.position = CGPoint(x: CGRectGetMaxX(self.view!.frame) + 10, y: CGRectGetMidY(self.view!.frame))
+        
+        //Physics
+        rightBorderWall.physicsBody = SKPhysicsBody(rectangleOfSize: rightBorderWall.size)
+        rightBorderWall.physicsBody?.categoryBitMask = PhysicsCategory.rightWall
+        rightBorderWall.physicsBody?.contactTestBitMask = PhysicsCategory.circle | PhysicsCategory.randomCircle
+        rightBorderWall.physicsBody?.collisionBitMask = PhysicsCategory.circle | PhysicsCategory.randomCircle
+        rightBorderWall.physicsBody?.affectedByGravity = false
+        rightBorderWall.physicsBody?.dynamic = false
+        
+        
+        addChild(rightBorderWall)
+    }
+    
+    func didBeginContact(contact: SKPhysicsContact) {
+        let firstBody = contact.bodyA.node as! SKSpriteNode
+        let secondBody = contact.bodyB.node as! SKSpriteNode
+        
+        switch SKSpriteNode() {
+        case (firstBody.name == "LeftBorderWall") && (secondBody.name == "Circle"):
+            collisionWall(secondBody)
+        case (firstBody.name == "Circle") && (secondBody.name == "LeftBorderWall"):
+            collisionWall(firstBody)
+        case (firstBody.name == "RightBorderWall") && (secondBody.name == "Circle"):
+            collisionWall(secondBody)
+        case (firstBody.name == "Circle") && (secondBody.name == "RightBorderWall"):
+            collisionWall(firstBody)
+        case (firstBody.name == "Circle") && (secondBody.name == "RandomCircle"):
+            collisionBall(firstBody, pushCircle: secondBody)
+        case (firstBody.name == "RandomCircle") && (secondBody.name == "Circle"):
+            collisionBall(secondBody, pushCircle: firstBody)
+        case (firstBody.name == "RandomCircle") && (secondBody.name == "LeftBorderWall"):
+            collisionWall(firstBody)
+        case (firstBody.name == "RandomCircle") && (secondBody.name == "RightBorderWall"):
+            collisionWall(firstBody)
+        case (firstBody.name == "Circle") && (secondBody.name == "PushCircle"):
+            collisionBall(firstBody, pushCircle: secondBody)
+        case (firstBody.name == "PushCircle") && (secondBody.name == "Circle"):
+            collisionBall(secondBody, pushCircle: firstBody)
+        case (firstBody.name == "RandomCircle") && (secondBody.name == "PushCircle"):
+            collisionBall(firstBody, pushCircle: secondBody)
+        case (firstBody.name == "PushCircle") && (secondBody.name == "RandomCircle"):
+            collisionBall(secondBody, pushCircle: firstBody)
+        case (firstBody.name == "RandomCircle") && (secondBody.name == "RandomCircle"):
+            collisionBall(firstBody, pushCircle: secondBody)
+        default:
+            return
+        }
+    }
+    
+    func collisionWall(circle: SKSpriteNode) {
+        circle.physicsBody?.affectedByGravity = true
+        circle.physicsBody?.dynamic = true
+    }
+    
+    func collisionBall(circle: SKSpriteNode, pushCircle: SKSpriteNode) {
+        circle.physicsBody?.affectedByGravity = true
+        circle.physicsBody?.dynamic = true
+        circle.physicsBody?.restitution = 0.9
+        
+        pushCircle.physicsBody?.affectedByGravity = true
+        pushCircle.physicsBody?.dynamic = true
+        pushCircle.physicsBody?.restitution = 0.9
+        //        pushCircle.physicsBody?.linearDamping = 25
     }
     
     func evictOffScreenRandomNumNodes() {
