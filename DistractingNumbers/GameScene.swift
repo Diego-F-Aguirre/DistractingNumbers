@@ -13,7 +13,8 @@ class GameScene: SKScene {
     let playButton = SKSpriteNode(imageNamed: "PlayButton")
     let playTitle = SKSpriteNode(imageNamed: "PlayTitle")
     var numContainer = SKSpriteNode()
-    var numContainerArray = [SKSpriteNode]()
+    var numContainerSet = Set<SKSpriteNode>()
+    
     
     override func didMoveToView(view: SKView) {
         addChild(Music.introMusic())
@@ -40,22 +41,20 @@ class GameScene: SKScene {
         numContainer = SKSpriteNode(imageNamed: "Circle")
         numContainer.name = "Circle"
         numContainer.size = CGSize(width: numContainer.frame.width / rand, height: numContainer.frame.height / rand)
-        numContainer.anchorPoint = CGPointMake(0, 0)
         numContainer.position = CGPoint(x: spawnPoint, y: self.size.height)
         numContainer.runAction(SKAction.repeatActionForever(action))
         numContainer.zPosition = 2
         
         numContainerParticles.particleSize = numContainer.size
-        // Todo center particles to numContainer
         
         
         addChild(numContainer)
         numContainer.addChild(numContainerParticles)
-        numContainerArray.append(numContainer)
+        numContainerSet.insert(numContainer)
     }
     
     func spawnNumbersForever() {
-        runAction(SKAction.repeatActionForever(SKAction.sequence([SKAction.runBlock(spawnNumbers),SKAction.waitForDuration(0.4)])))
+        runAction(SKAction.repeatActionForever(SKAction.sequence([SKAction.runBlock(spawnNumbers),SKAction.waitForDuration(0.7)])))
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
@@ -70,6 +69,19 @@ class GameScene: SKScene {
                 skView.presentScene(scene)
             }
         }
+    }
+    
+    func evictOffScreenNumNodes() {
+        let results = numContainerSet.filter({$0.position.y < -$0.size.height / 2.0})
+
+        results.forEach { (node) in
+            node.removeFromParent()
+            numContainerSet.remove(node)
+        }
+    }
+    
+    override func update(currentTime: NSTimeInterval) {
+        evictOffScreenNumNodes()
     }
 }
 
