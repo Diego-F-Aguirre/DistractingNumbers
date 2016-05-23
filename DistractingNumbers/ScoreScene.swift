@@ -15,12 +15,12 @@ class ScoreScene: SKScene {
     
     override func didMoveToView(view: SKView) {
         
-        guard let savedHighScore = NSUserDefaults.standardUserDefaults().objectForKey("savedHighScore") else {return}
+        guard let savedHighScore = NSUserDefaults.standardUserDefaults().objectForKey("savedHighScore") else { return }
         
         runAction(Music.gameOver())
-                
+        
         backgroundColor = UIColor(red: 1.000, green: 0.000, blue: 0.184, alpha: 1.00)
-
+        
         Labels.createScoreTitle()
         Labels.scoreTitle.position = (CGPoint(x: CGRectGetMidX(self.frame), y: CGRectGetMaxY(self.frame) - 60))
         addChild(Labels.scoreTitle)
