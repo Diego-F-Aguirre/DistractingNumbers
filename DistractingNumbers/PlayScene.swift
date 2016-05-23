@@ -14,7 +14,6 @@ struct PhysicsCategory {
     static let leftWall: UInt32 = 0x1 << 1
     static let rightWall: UInt32 = 0x1 << 2
     static let randomCircle: UInt32 = 0x1 << 3
-    static let pushCircle: UInt32 = 0x1 << 4
 }
 
 struct Scores {
@@ -50,7 +49,6 @@ class PlayScene: SKScene, SKPhysicsContactDelegate {
         
         leftBarrierWall()
         rightBarrierWall()
-        spawnPushSphere()
         
         Sprites.clawFlash()
         Sprites.clawFlashNode.position = CGPoint(x: CGRectGetMidX(view.frame), y: CGRectGetMidY(view.frame))
@@ -121,8 +119,8 @@ class PlayScene: SKScene, SKPhysicsContactDelegate {
         //Physics
         randomNumContainer.physicsBody = SKPhysicsBody(circleOfRadius: randomNumContainer.size.width / 2)
         randomNumContainer.physicsBody?.categoryBitMask = PhysicsCategory.randomCircle
-        randomNumContainer.physicsBody?.collisionBitMask = PhysicsCategory.leftWall | PhysicsCategory.rightWall | PhysicsCategory.circle | PhysicsCategory.pushCircle | PhysicsCategory.randomCircle
-        randomNumContainer.physicsBody?.contactTestBitMask = PhysicsCategory.leftWall | PhysicsCategory.rightWall | PhysicsCategory.circle | PhysicsCategory.pushCircle | PhysicsCategory.randomCircle
+        randomNumContainer.physicsBody?.collisionBitMask = PhysicsCategory.leftWall | PhysicsCategory.rightWall | PhysicsCategory.circle | PhysicsCategory.randomCircle
+        randomNumContainer.physicsBody?.contactTestBitMask = PhysicsCategory.leftWall | PhysicsCategory.rightWall | PhysicsCategory.circle | PhysicsCategory.randomCircle
         randomNumContainer.physicsBody?.dynamic = true
         randomNumContainer.physicsBody?.linearDamping = 10
         randomNumContainer.physicsBody?.allowsRotation = false
@@ -161,8 +159,8 @@ class PlayScene: SKScene, SKPhysicsContactDelegate {
         //Physics
         numContainer.physicsBody = SKPhysicsBody(circleOfRadius: numContainer.size.width / 2)
         numContainer.physicsBody?.categoryBitMask = PhysicsCategory.circle
-        numContainer.physicsBody?.collisionBitMask = PhysicsCategory.leftWall | PhysicsCategory.rightWall | PhysicsCategory.randomCircle | PhysicsCategory.pushCircle | PhysicsCategory.circle
-        numContainer.physicsBody?.contactTestBitMask = PhysicsCategory.leftWall | PhysicsCategory.rightWall | PhysicsCategory.randomCircle | PhysicsCategory.pushCircle | PhysicsCategory.circle
+        numContainer.physicsBody?.collisionBitMask = PhysicsCategory.leftWall | PhysicsCategory.rightWall | PhysicsCategory.randomCircle | PhysicsCategory.circle
+        numContainer.physicsBody?.contactTestBitMask = PhysicsCategory.leftWall | PhysicsCategory.rightWall | PhysicsCategory.randomCircle | PhysicsCategory.circle
         numContainer.physicsBody?.dynamic = true
         numContainer.physicsBody?.allowsRotation = false
         numContainer.physicsBody?.linearDamping = 8
@@ -181,24 +179,6 @@ class PlayScene: SKScene, SKPhysicsContactDelegate {
         numContainer.addChild(numberLabel)
         numContainerArray.append(numContainer)
         numToTouch += 1
-    }
-    
-    func spawnPushSphere() {
-        pushCircle = SKSpriteNode(imageNamed: "Push_Circle")
-        pushCircle.name = "PushCircle"
-        pushCircle.zPosition = 1
-        pushCircle.size = CGSize(width: 65, height: 65)
-        pushCircle.position = CGPoint(x: CGRectGetMidX(self.view!.frame), y: CGRectGetMidY(self.view!.frame))
-        
-        
-        //Physics
-        pushCircle.physicsBody = SKPhysicsBody(circleOfRadius: pushCircle.size.width / 2)
-        pushCircle.physicsBody?.categoryBitMask = PhysicsCategory.pushCircle
-        pushCircle.physicsBody?.contactTestBitMask = PhysicsCategory.circle | PhysicsCategory.randomCircle
-        pushCircle.physicsBody?.collisionBitMask = PhysicsCategory.circle | PhysicsCategory.randomCircle
-        pushCircle.physicsBody?.dynamic = false
-        
-        addChild(pushCircle)
     }
     
     func leftBarrierWall() {
@@ -258,16 +238,12 @@ class PlayScene: SKScene, SKPhysicsContactDelegate {
             collisionBall(secondBody, pushCircle: firstBody)
         case (firstBody.name == "RandomCircle") && (secondBody.name == "LeftBorderWall"):
             collisionWall(firstBody)
+        case (firstBody.name == "LeftBorderWall") && (secondBody.name == "RandomCircle"):
+            collisionWall(secondBody)
         case (firstBody.name == "RandomCircle") && (secondBody.name == "RightBorderWall"):
             collisionWall(firstBody)
-        case (firstBody.name == "Circle") && (secondBody.name == "PushCircle"):
-            collisionBall(firstBody, pushCircle: secondBody)
-        case (firstBody.name == "PushCircle") && (secondBody.name == "Circle"):
-            collisionBall(secondBody, pushCircle: firstBody)
-        case (firstBody.name == "RandomCircle") && (secondBody.name == "PushCircle"):
-            collisionBall(firstBody, pushCircle: secondBody)
-        case (firstBody.name == "PushCircle") && (secondBody.name == "RandomCircle"):
-            collisionBall(secondBody, pushCircle: firstBody)
+        case (firstBody.name == "RightBorderWall") && (secondBody.name == "RandomCircle"):
+            collisionWall(secondBody)
         case (firstBody.name == "RandomCircle") && (secondBody.name == "RandomCircle"):
             collisionBall(firstBody, pushCircle: secondBody)
         default:
