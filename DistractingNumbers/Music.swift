@@ -20,11 +20,15 @@ class Music: SKAudioNode {
     static func playRound1() -> SKAudioNode {
         let backgroundMusic = SKAudioNode(fileNamed: "round1.mp3")
         backgroundMusic.autoplayLooped = true
+        backgroundMusic.name = "round1"
         return backgroundMusic
     }
     
     static func rushRound() -> SKAudioNode {
-        return SKAudioNode()
+        let backgroundMusic = SKAudioNode(fileNamed: "rushRound.mp3")
+        backgroundMusic.autoplayLooped = true
+        backgroundMusic.name = "rushRound"
+        return backgroundMusic
     }
     
     static func gameOver() -> SKAction {

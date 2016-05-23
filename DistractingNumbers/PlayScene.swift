@@ -17,8 +17,13 @@ struct PhysicsCategory {
 }
 
 struct Scores {
-    static var score = 0
+    static var score = 90
     static var highScore = NSUserDefaults.standardUserDefaults().objectForKey("savedHighScore")
+}
+
+enum RoundState {
+    case Round1
+    case RushRound
 }
 
 class PlayScene: SKScene, SKPhysicsContactDelegate {
@@ -30,11 +35,13 @@ class PlayScene: SKScene, SKPhysicsContactDelegate {
     var randomNumContainerSet = Set<SKSpriteNode>()
     var numContainer = SKSpriteNode()
     var numContainerArray = [SKSpriteNode]()
-    var numToTouch = 1
+    var numToTouch = 90
     var leftBorderWall = SKSpriteNode()
     var rightBorderWall = SKSpriteNode()
     var pushCircle = SKSpriteNode()
     var dampingRate = CGFloat(0)
+    var roundState = RoundState.Round1
+    var codeExecuted = false
     
     override func didMoveToView(view: SKView) {
         self.backgroundColor = UIColor(red: 1.000, green: 0.000, blue: 0.184, alpha: 1.00)
@@ -77,8 +84,28 @@ class PlayScene: SKScene, SKPhysicsContactDelegate {
                 runAction(SKAction.sequence([SKAction.waitForDuration(0.15), SKAction.runBlock(Sprites.dismissClawFlash)]))
                 runAction(Music.incorrect())
             }
+            if roundState == .RushRound {
+                for child in self.children as [SKNode] {
+                    if child.name == "round1" {
+                        self.removeChildrenInArray([child])
+                    }
+                }
+                if !codeExecuted {
+                    addChild(Music.rushRound())
+                    codeExecuted = true
+                }
+            }
         }
     }
+//    
+//    func backGroundMusic() {
+//        switch roundState {
+//        case .Round1:
+//            addChild(Music.playRound1())
+//        case .RushRound:
+//            addChild(Music.rushRound())
+//        }
+//    }
     
     func spawnNumbersForever() {
         runAction(SKAction.repeatActionForever(SKAction.sequence([SKAction.runBlock(spawnNumbers),SKAction.waitForDuration(1.3)])))
@@ -113,7 +140,7 @@ class PlayScene: SKScene, SKPhysicsContactDelegate {
         randomNumContainer.name = "FakeCircle"
         randomNumContainer.size = CGSize(width: 72, height: 72)
         randomNumContainer.anchorPoint = CGPointMake(0, 0)
-        randomNumContainer.position = CGPoint(x: spawnPoint, y: self.size.height)
+        randomNumContainer.position = CGPoint(x: spawnPoint, y: self.size.height + 35)
         //        randomNumContainer.runAction(SKAction.repeatActionForever(action))
         randomNumContainer.zPosition = -1
         
@@ -127,7 +154,13 @@ class PlayScene: SKScene, SKPhysicsContactDelegate {
         randomNumContainer.physicsBody?.allowsRotation = false
         
         let randomNumberLabel = SKLabelNode(fontNamed: "AvenirNext-Bold")
+        
+        if numToTouch > 100 {
+        randomNumberLabel.text = String(arc4random_uniform(200) + 100)
+        } else {
         randomNumberLabel.text = String(arc4random_uniform(100))
+        }
+        
         randomNumberLabel.name = "Label"
         randomNumberLabel.zPosition = -2
         randomNumberLabel.position = CGPointMake(CGRectGetMidX(numContainer.centerRect) + 36, CGRectGetMidY(numContainer.centerRect) + 36)
@@ -153,7 +186,7 @@ class PlayScene: SKScene, SKPhysicsContactDelegate {
         numContainer.name = "Circle"
         numContainer.size = CGSize(width: 72, height: 72)
         numContainer.anchorPoint = CGPointMake(0, 0)
-        numContainer.position = CGPoint(x: spawnPoint, y: self.size.height)
+        numContainer.position = CGPoint(x: spawnPoint, y: self.size.height + 35)
         //        numContainer.runAction(SKAction.repeatActionForever(action))
         numContainer.zPosition = 2
         
@@ -186,7 +219,7 @@ class PlayScene: SKScene, SKPhysicsContactDelegate {
         leftBorderWall.color = UIColor.purpleColor()
         leftBorderWall.name = "LeftBorderWall"
         leftBorderWall.zPosition = 1
-        leftBorderWall.size = CGSize(width: 20, height: CGRectGetMaxY(self.view!.frame))
+        leftBorderWall.size = CGSize(width: 20, height: CGRectGetMaxY(self.view!.frame) + 75)
         leftBorderWall.position = CGPoint(x: CGRectGetMinX(self.view!.frame) - 10, y: CGRectGetMidY(self.view!.frame))
         
         //Physics
@@ -205,7 +238,7 @@ class PlayScene: SKScene, SKPhysicsContactDelegate {
         rightBorderWall.color = UIColor.purpleColor()
         rightBorderWall.name = "RightBorderWall"
         rightBorderWall.zPosition = 1
-        rightBorderWall.size = CGSize(width: 20, height: CGRectGetMaxY(self.view!.frame))
+        rightBorderWall.size = CGSize(width: 20, height: CGRectGetMaxY(self.view!.frame) + 75)
         rightBorderWall.position = CGPoint(x: CGRectGetMaxX(self.view!.frame) + 10, y: CGRectGetMidY(self.view!.frame))
         
         //Physics
@@ -265,7 +298,7 @@ class PlayScene: SKScene, SKPhysicsContactDelegate {
         pushCircle.physicsBody?.affectedByGravity = true
         pushCircle.physicsBody?.dynamic = true
         pushCircle.physicsBody?.restitution = 0.9
-        //        pushCircle.physicsBody?.linearDamping = 25
+        //pushCircle.physicsBody?.linearDamping = 25
     }
     
     func evictOffScreenRandomNumNodes() {
@@ -281,6 +314,9 @@ class PlayScene: SKScene, SKPhysicsContactDelegate {
         if gameOver == true || health == 0{
             highScorePersistence()
             gameOverScene()
+        }
+        if Scores.score == 50 {
+            roundState = .RushRound
         }
         
         switch Scores.score {
@@ -301,17 +337,17 @@ class PlayScene: SKScene, SKPhysicsContactDelegate {
         case 111...130:
             dampingRate = CGFloat(0.5)
         case 131...150:
-            dampingRate = CGFloat(2.0)
+            dampingRate = CGFloat(0.5)
         case 151...170:
-            dampingRate = CGFloat(1.5)
+            dampingRate = CGFloat(0.5)
         case 171...190:
-            dampingRate = CGFloat(3.0)
+            dampingRate = CGFloat(0.5)
         case 191...210:
-            dampingRate = CGFloat(2.5)
+            dampingRate = CGFloat(0.5)
         case 211...1000:
-            dampingRate = CGFloat(2.0)
+            dampingRate = CGFloat(0.5)
         default:
-            dampingRate = CGFloat(8)
+            dampingRate = CGFloat(0.5)
         }
         
         checkIfNumHitTheBottom()
