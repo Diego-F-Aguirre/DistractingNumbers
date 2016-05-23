@@ -35,12 +35,13 @@ class GameViewController: UIViewController {
          UIApplication.sharedApplication().statusBarStyle = .Default
     }
     
+    // Todo: Status white bar not showing up
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
         return .LightContent
     }
     
     override func shouldAutorotate() -> Bool {
-        return true
+        return false
     }
     
     override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {

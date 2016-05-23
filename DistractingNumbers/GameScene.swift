@@ -13,54 +13,47 @@ class GameScene: SKScene {
     let playButton = SKSpriteNode(imageNamed: "PlayButton")
     let playTitle = SKSpriteNode(imageNamed: "PlayTitle")
     var numContainer = SKSpriteNode()
-    var numContainerArray = [SKSpriteNode]()
+    var numContainerSet = Set<SKSpriteNode>()
+    
     
     override func didMoveToView(view: SKView) {
-        //BG Game Scene Music
-        let backgroundMusic = SKAudioNode(fileNamed: "menuSound.mp3")
-        backgroundMusic.autoplayLooped = true
-        addChild(backgroundMusic)
+        addChild(Music.introMusic())
         
-        //Falling BackgroundCircles
         spawnNumbersForever()
         
-        //PlayButton
-        self.playButton.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame) - 60)
-        self.backgroundColor = UIColor(red: 1.000, green: 0.000, blue: 0.184, alpha: 1.00)
-        
-        self.addChild(self.playButton)
-        
-        //TitleLabel
+        playButton.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame) - 60)
+        backgroundColor = UIColor(red: 1.000, green: 0.000, blue: 0.184, alpha: 1.00)
+        addChild(playButton)
         
         playTitle.position = (CGPoint(x: CGRectGetMidX(self.frame), y: CGRectGetMaxY(self.frame) - 160))
         playTitle.zPosition = 1
-     
-        
-        self.addChild(playTitle)
+        addChild(playTitle)
     }
     
     func spawnNumbers() {
-        
         let minValue = self.size.width / 8
         let maxValue = self.size.width - 36
         let spawnPoint = CGFloat(arc4random_uniform(UInt32(maxValue - minValue)))
         let action = SKAction.moveToY(-160, duration: 2.8)
         let rand = CGFloat(arc4random_uniform(5))
+        guard let numContainerParticles = SKEmitterNode(fileNamed: "CircleTrail.sks") else { return }
         
-        numContainer = SKSpriteNode(imageNamed: "CircleTrail")
-        numContainer.name = "CircleTrail"
+        numContainer = SKSpriteNode(imageNamed: "Circle")
+        numContainer.name = "Circle"
         numContainer.size = CGSize(width: numContainer.frame.width / rand, height: numContainer.frame.height / rand)
-        numContainer.anchorPoint = CGPointMake(0, 0)
         numContainer.position = CGPoint(x: spawnPoint, y: self.size.height)
         numContainer.runAction(SKAction.repeatActionForever(action))
         numContainer.zPosition = 2
         
+        numContainerParticles.particleSize = numContainer.size
+        
         addChild(numContainer)
-        numContainerArray.append(numContainer)
+        numContainer.addChild(numContainerParticles)
+        numContainerSet.insert(numContainer)
     }
     
     func spawnNumbersForever() {
-        runAction(SKAction.repeatActionForever(SKAction.sequence([SKAction.runBlock(spawnNumbers),SKAction.waitForDuration(0.4)])))
+        runAction(SKAction.repeatActionForever(SKAction.sequence([SKAction.runBlock(spawnNumbers),SKAction.waitForDuration(0.7)])))
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
@@ -77,8 +70,17 @@ class GameScene: SKScene {
         }
     }
     
-    override func update(currentTime: CFTimeInterval) {
-        
+    func evictOffScreenNumNodes() {
+        let results = numContainerSet.filter({$0.position.y < -$0.size.height / 2.0})
+
+        results.forEach { (node) in
+            node.removeFromParent()
+            numContainerSet.remove(node)
+        }
+    }
+    
+    override func update(currentTime: NSTimeInterval) {
+        evictOffScreenNumNodes()
     }
 }
 
