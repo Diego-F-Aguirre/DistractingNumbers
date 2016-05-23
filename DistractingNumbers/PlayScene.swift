@@ -17,7 +17,7 @@ struct PhysicsCategory {
 }
 
 struct Scores {
-    static var score = 90
+    static var score = 0
     static var highScore = NSUserDefaults.standardUserDefaults().objectForKey("savedHighScore")
 }
 
@@ -35,7 +35,7 @@ class PlayScene: SKScene, SKPhysicsContactDelegate {
     var randomNumContainerSet = Set<SKSpriteNode>()
     var numContainer = SKSpriteNode()
     var numContainerArray = [SKSpriteNode]()
-    var numToTouch = 90
+    var numToTouch = 1
     var leftBorderWall = SKSpriteNode()
     var rightBorderWall = SKSpriteNode()
     var pushCircle = SKSpriteNode()
