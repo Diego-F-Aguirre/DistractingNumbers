@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		BC2418341CEAD0B700A4AB3D /* Bear_Images.atlas in Resources */ = {isa = PBXBuildFile; fileRef = BC2418331CEAD0B700A4AB3D /* Bear_Images.atlas */; };
+		BC6F0F511CF381F70020A556 /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC6F0F501CF381F70020A556 /* GameKit.framework */; };
 		BC9DE3771CEF64C1004A0276 /* Music.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9DE3761CEF64C1004A0276 /* Music.swift */; };
 		BC9DE37C1CEF75B6004A0276 /* Sprites.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9DE37B1CEF75B6004A0276 /* Sprites.swift */; };
 		BC9DE37E1CEF7FD3004A0276 /* Labels.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9DE37D1CEF7FD3004A0276 /* Labels.swift */; };
@@ -33,6 +34,7 @@
 
 /* Begin PBXFileReference section */
 		BC2418331CEAD0B700A4AB3D /* Bear_Images.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = Bear_Images.atlas; sourceTree = "<group>"; };
+		BC6F0F501CF381F70020A556 /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		BC9DE3761CEF64C1004A0276 /* Music.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Music.swift; sourceTree = "<group>"; };
 		BC9DE37B1CEF75B6004A0276 /* Sprites.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sprites.swift; sourceTree = "<group>"; };
 		BC9DE37D1CEF7FD3004A0276 /* Labels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Labels.swift; sourceTree = "<group>"; };
@@ -63,6 +65,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BC6F0F511CF381F70020A556 /* GameKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -104,6 +107,7 @@
 		BCD824471CEA2337008216FC = {
 			isa = PBXGroup;
 			children = (
+				BC6F0F501CF381F70020A556 /* GameKit.framework */,
 				BCD824521CEA2337008216FC /* DistractingNumbers */,
 				BCD824511CEA2337008216FC /* Products */,
 				BC2418331CEAD0B700A4AB3D /* Bear_Images.atlas */,
@@ -180,6 +184,11 @@
 					BCD8244F1CEA2337008216FC = {
 						CreatedOnToolsVersion = 7.3;
 						DevelopmentTeam = HQN23BS377;
+						SystemCapabilities = {
+							com.apple.GameCenter = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};

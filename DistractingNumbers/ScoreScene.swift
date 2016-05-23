@@ -7,20 +7,21 @@
 //
 
 import SpriteKit
+import GameKit
 
-class ScoreScene: SKScene {
+class ScoreScene: SKScene, GKGameCenterControllerDelegate {
     
     let playAgainButton = SKSpriteNode(imageNamed: "PlayAgain")
     let menuButton = SKSpriteNode(imageNamed: "Menu")
     
     override func didMoveToView(view: SKView) {
         
-        guard let savedHighScore = NSUserDefaults.standardUserDefaults().objectForKey("savedHighScore") else {return}
+        guard let savedHighScore = NSUserDefaults.standardUserDefaults().objectForKey("savedHighScore") else { return }
         
         runAction(Music.gameOver())
-                
+        
         backgroundColor = UIColor(red: 1.000, green: 0.000, blue: 0.184, alpha: 1.00)
-
+        
         Labels.createScoreTitle()
         Labels.scoreTitle.position = (CGPoint(x: CGRectGetMidX(self.frame), y: CGRectGetMaxY(self.frame) - 60))
         addChild(Labels.scoreTitle)
@@ -66,5 +67,35 @@ class ScoreScene: SKScene {
                 skView.presentScene(scene)
             }
         }
+    }
+    
+    func userSavedHighScore(number: Int) {
+        guard let getHighScore = NSUserDefaults.standardUserDefaults().objectForKey("savedHighScore") else { return }
+        
+        if GKLocalPlayer.localPlayer().authenticated {
+            
+            let scoreReporter = GKScore(leaderboardIdentifier: "1.0")
+            
+            scoreReporter.value = Int64(getHighScore as! String)!
+            
+            let scoreArray: [GKScore] = [scoreReporter]
+            GKScore.reportScores(scoreArray, withCompletionHandler: nil)
+            
+            print("Score sent to GameCenter")
+            
+            self.presentLeaderBoard()
+        }
+        
+    }
+    
+    func presentLeaderBoard() {
+        let leaderBoardVC = GKGameCenterViewController()
+        leaderBoardVC.leaderboardIdentifier = "1.0"
+        leaderBoardVC.gameCenterDelegate = self
+        // TODO PRESENT VIEW
+    }
+    
+    func gameCenterViewControllerDidFinish(gameCenterViewController: GKGameCenterViewController) {
+        gameCenterViewController.dismissViewControllerAnimated(true, completion: nil)
     }
 }
