@@ -7,7 +7,6 @@
 //
 
 import SpriteKit
-import GameKit
 
 class GameScene: SKScene {
     
@@ -21,7 +20,6 @@ class GameScene: SKScene {
         addChild(Music.introMusic())
         
         spawnNumbersForever()
-        authPlayer()
         
         playButton.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame) - 60)
         backgroundColor = UIColor(red: 1.000, green: 0.000, blue: 0.184, alpha: 1.00)
@@ -83,17 +81,6 @@ class GameScene: SKScene {
     
     override func update(currentTime: NSTimeInterval) {
         evictOffScreenNumNodes()
-    }
-    
-    func authPlayer() {
-        let localPlayer = GKLocalPlayer.localPlayer()
-        
-        localPlayer.authenticateHandler = {
-            (view, error) in
-            
-            if view != nil {
-            }
-        }
     }
 }
 

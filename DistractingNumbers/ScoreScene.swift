@@ -7,9 +7,8 @@
 //
 
 import SpriteKit
-import GameKit
 
-class ScoreScene: SKScene, GKGameCenterControllerDelegate {
+class ScoreScene: SKScene {
     
     let playAgainButton = SKSpriteNode(imageNamed: "PlayAgain")
     let menuButton = SKSpriteNode(imageNamed: "Menu")
@@ -67,35 +66,5 @@ class ScoreScene: SKScene, GKGameCenterControllerDelegate {
                 skView.presentScene(scene)
             }
         }
-    }
-    
-    func userSavedHighScore(number: Int) {
-        guard let getHighScore = NSUserDefaults.standardUserDefaults().objectForKey("savedHighScore") else { return }
-        
-        if GKLocalPlayer.localPlayer().authenticated {
-            
-            let scoreReporter = GKScore(leaderboardIdentifier: "1.0")
-            
-            scoreReporter.value = Int64(getHighScore as! String)!
-            
-            let scoreArray: [GKScore] = [scoreReporter]
-            GKScore.reportScores(scoreArray, withCompletionHandler: nil)
-            
-            print("Score sent to GameCenter")
-            
-            self.presentLeaderBoard()
-        }
-        
-    }
-    
-    func presentLeaderBoard() {
-        let leaderBoardVC = GKGameCenterViewController()
-        leaderBoardVC.leaderboardIdentifier = "1.0"
-        leaderBoardVC.gameCenterDelegate = self
-        // TODO PRESENT VIEW
-    }
-    
-    func gameCenterViewControllerDidFinish(gameCenterViewController: GKGameCenterViewController) {
-        gameCenterViewController.dismissViewControllerAnimated(true, completion: nil)
     }
 }
