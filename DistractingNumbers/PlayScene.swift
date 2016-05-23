@@ -34,7 +34,6 @@ class PlayScene: SKScene, SKPhysicsContactDelegate {
     var leftBorderWall = SKSpriteNode()
     var rightBorderWall = SKSpriteNode()
     var pushCircle = SKSpriteNode()
-    var dampingRate = CGFloat(0)
     
     override func didMoveToView(view: SKView) {
         self.backgroundColor = UIColor(red: 1.000, green: 0.000, blue: 0.184, alpha: 1.00)
@@ -123,7 +122,7 @@ class PlayScene: SKScene, SKPhysicsContactDelegate {
         randomNumContainer.physicsBody?.collisionBitMask = PhysicsCategory.leftWall | PhysicsCategory.rightWall | PhysicsCategory.circle | PhysicsCategory.randomCircle
         randomNumContainer.physicsBody?.contactTestBitMask = PhysicsCategory.leftWall | PhysicsCategory.rightWall | PhysicsCategory.circle | PhysicsCategory.randomCircle
         randomNumContainer.physicsBody?.dynamic = true
-        randomNumContainer.physicsBody?.linearDamping = dampingRate
+        randomNumContainer.physicsBody?.linearDamping = 10
         randomNumContainer.physicsBody?.allowsRotation = false
         
         let randomNumberLabel = SKLabelNode(fontNamed: "AvenirNext-Bold")
@@ -164,7 +163,7 @@ class PlayScene: SKScene, SKPhysicsContactDelegate {
         numContainer.physicsBody?.contactTestBitMask = PhysicsCategory.leftWall | PhysicsCategory.rightWall | PhysicsCategory.randomCircle | PhysicsCategory.circle
         numContainer.physicsBody?.dynamic = true
         numContainer.physicsBody?.allowsRotation = false
-        numContainer.physicsBody?.linearDamping = dampingRate
+        numContainer.physicsBody?.linearDamping = 8
         
         let numberLabel = SKLabelNode(fontNamed: "AvenirNext-Bold")
         numberLabel.text = "\(numToTouch)"
@@ -282,38 +281,6 @@ class PlayScene: SKScene, SKPhysicsContactDelegate {
             highScorePersistence()
             gameOverScene()
         }
-        
-        switch Scores.score {
-        case 0...10:
-            dampingRate = CGFloat(8)
-        case 11...20:
-            dampingRate = CGFloat(6)
-        case 21...30:
-            dampingRate = CGFloat(4)
-        case 31...50:
-            dampingRate = CGFloat(3)
-        case 51...70:
-            dampingRate = CGFloat(2)
-        case 71...90:
-            dampingRate = CGFloat(1.5)
-        case 91...110:
-            dampingRate = CGFloat(1)
-        case 111...130:
-            dampingRate = CGFloat(0.5)
-        case 131...150:
-            dampingRate = CGFloat(2.0)
-        case 151...170:
-            dampingRate = CGFloat(1.5)
-        case 171...190:
-            dampingRate = CGFloat(3.0)
-        case 191...210:
-            dampingRate = CGFloat(2.5)
-        case 211...1000:
-            dampingRate = CGFloat(2.0)
-        default:
-            dampingRate = CGFloat(8)
-        }
-        
         checkIfNumHitTheBottom()
         updateScoreLabel()
         evictOffScreenRandomNumNodes()
