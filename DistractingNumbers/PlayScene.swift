@@ -39,6 +39,7 @@ class PlayScene: SKScene, SKPhysicsContactDelegate {
     var leftBorderWall = SKSpriteNode()
     var rightBorderWall = SKSpriteNode()
     var pushCircle = SKSpriteNode()
+    var numContainerParticles = SKEmitterNode()
     var dampingRate = CGFloat(0)
     var roundState = RoundState.Round1
     var codeExecuted = false
@@ -74,7 +75,13 @@ class PlayScene: SKScene, SKPhysicsContactDelegate {
             let location = touch.locationInNode(self)
             let theNode = self.nodeAtPoint(location)
             if theNode.name == "Circle" {
-                self.removeChildrenInArray([self.nodeAtPoint(location)])
+                guard let selectedPop = theNode.children.first else { return }
+                selectedPop.hidden = false
+                
+                runAction(SKAction.sequence([SKAction.waitForDuration(0.01), SKAction.runBlock({
+                    self.removeChildrenInArray([theNode])
+                })]))
+                
                 Scores.score+=1
                 runAction(Music.popSound())
             }
@@ -97,15 +104,6 @@ class PlayScene: SKScene, SKPhysicsContactDelegate {
             }
         }
     }
-//    
-//    func backGroundMusic() {
-//        switch roundState {
-//        case .Round1:
-//            addChild(Music.playRound1())
-//        case .RushRound:
-//            addChild(Music.rushRound())
-//        }
-//    }
     
     func spawnNumbersForever() {
         runAction(SKAction.repeatActionForever(SKAction.sequence([SKAction.runBlock(spawnNumbers),SKAction.waitForDuration(1.3)])))
@@ -131,17 +129,12 @@ class PlayScene: SKScene, SKPhysicsContactDelegate {
     func spawnRandomNumbers() {
         let minValue = self.size.width / 8
         let maxValue = self.size.width - 36
-        
         let spawnPoint = CGFloat(arc4random_uniform(UInt32(maxValue - minValue)))
-        //let actualDuration = random(min: CGFloat(2.0), max: CGFloat(4.0))
-        //        let action = SKAction.moveToY(-160, duration: 2)
-        
         let randomNumContainer = SKSpriteNode(imageNamed: "Circle")
+        
         randomNumContainer.name = "FakeCircle"
         randomNumContainer.size = CGSize(width: 72, height: 72)
-        randomNumContainer.anchorPoint = CGPointMake(0, 0)
         randomNumContainer.position = CGPoint(x: spawnPoint, y: self.size.height + 35)
-        //        randomNumContainer.runAction(SKAction.repeatActionForever(action))
         randomNumContainer.zPosition = -1
         
         //Physics
@@ -156,14 +149,14 @@ class PlayScene: SKScene, SKPhysicsContactDelegate {
         let randomNumberLabel = SKLabelNode(fontNamed: "AvenirNext-Bold")
         
         if numToTouch > 100 {
-        randomNumberLabel.text = String(arc4random_uniform(200) + 100)
+            randomNumberLabel.text = String(arc4random_uniform(200) + 100)
         } else {
-        randomNumberLabel.text = String(arc4random_uniform(100))
+            randomNumberLabel.text = String(arc4random_uniform(100))
         }
         
         randomNumberLabel.name = "Label"
         randomNumberLabel.zPosition = -2
-        randomNumberLabel.position = CGPointMake(CGRectGetMidX(numContainer.centerRect) + 36, CGRectGetMidY(numContainer.centerRect) + 36)
+        randomNumberLabel.position = CGPointMake(CGRectGetMidX(numContainer.centerRect), CGRectGetMidY(numContainer.centerRect))
         randomNumberLabel.horizontalAlignmentMode = .Center
         randomNumberLabel.verticalAlignmentMode = .Center
         randomNumberLabel.fontColor = UIColor.whiteColor()
@@ -177,18 +170,19 @@ class PlayScene: SKScene, SKPhysicsContactDelegate {
     func spawnNumbers() {
         let minValue = self.size.width / 8
         let maxValue = self.size.width - 36
-        
         let spawnPoint = CGFloat(arc4random_uniform(UInt32(maxValue - minValue)))
-        //let actualDuration = random(min: CGFloat(2.0), max: CGFloat(4.0))
-        //        let action = SKAction.moveToY(-160, duration: 2)
         
         numContainer = SKSpriteNode(imageNamed: "Circle")
         numContainer.name = "Circle"
         numContainer.size = CGSize(width: 72, height: 72)
-        numContainer.anchorPoint = CGPointMake(0, 0)
         numContainer.position = CGPoint(x: spawnPoint, y: self.size.height + 35)
-        //        numContainer.runAction(SKAction.repeatActionForever(action))
         numContainer.zPosition = 2
+        
+        //Pop Particles
+        numContainerParticles = SKEmitterNode(fileNamed: "CirclePop.sks")!
+        numContainerParticles.particleSize = numContainer.size
+        numContainerParticles.hidden = true
+        numContainer.addChild(numContainerParticles)
         
         //Physics
         numContainer.physicsBody = SKPhysicsBody(circleOfRadius: numContainer.size.width / 2)
@@ -203,7 +197,7 @@ class PlayScene: SKScene, SKPhysicsContactDelegate {
         numberLabel.text = "\(numToTouch)"
         numberLabel.name = "Label"
         numberLabel.zPosition = -1
-        numberLabel.position = CGPointMake(CGRectGetMidX(numContainer.centerRect) + 36, CGRectGetMidY(numContainer.centerRect) + 36)
+        numberLabel.position = CGPointMake(CGRectGetMidX(numContainer.centerRect), CGRectGetMidY(numContainer.centerRect))
         numberLabel.horizontalAlignmentMode = .Center
         numberLabel.verticalAlignmentMode = .Center
         numberLabel.fontColor = UIColor.whiteColor()
@@ -230,7 +224,6 @@ class PlayScene: SKScene, SKPhysicsContactDelegate {
         leftBorderWall.physicsBody?.affectedByGravity = false
         leftBorderWall.physicsBody?.dynamic = false
         
-        
         addChild(leftBorderWall)
     }
     
@@ -248,7 +241,6 @@ class PlayScene: SKScene, SKPhysicsContactDelegate {
         rightBorderWall.physicsBody?.collisionBitMask = PhysicsCategory.circle | PhysicsCategory.randomCircle
         rightBorderWall.physicsBody?.affectedByGravity = false
         rightBorderWall.physicsBody?.dynamic = false
-        
         
         addChild(rightBorderWall)
     }
@@ -298,7 +290,6 @@ class PlayScene: SKScene, SKPhysicsContactDelegate {
         pushCircle.physicsBody?.affectedByGravity = true
         pushCircle.physicsBody?.dynamic = true
         pushCircle.physicsBody?.restitution = 0.9
-        //pushCircle.physicsBody?.linearDamping = 25
     }
     
     func evictOffScreenRandomNumNodes() {
