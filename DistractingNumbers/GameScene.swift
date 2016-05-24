@@ -7,19 +7,20 @@
 //
 
 import SpriteKit
+import GameKit
 
-class GameScene: SKScene {
+class GameScene: SKScene, GKGameCenterControllerDelegate {
     
     let playButton = SKSpriteNode(imageNamed: "PlayButton")
     let playTitle = SKSpriteNode(imageNamed: "PlayTitle")
     var numContainer = SKSpriteNode()
     var numContainerSet = Set<SKSpriteNode>()
     
-    
     override func didMoveToView(view: SKView) {
         addChild(Music.introMusic())
         
         spawnNumbersForever()
+        authPlayer()
         
         playButton.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame) - 60)
         backgroundColor = UIColor(red: 1.000, green: 0.000, blue: 0.184, alpha: 1.00)
@@ -28,6 +29,10 @@ class GameScene: SKScene {
         playTitle.position = (CGPoint(x: CGRectGetMidX(self.frame), y: CGRectGetMaxY(self.frame) - 160))
         playTitle.zPosition = 1
         addChild(playTitle)
+        
+        Labels.createLeaderBoardTitle()
+        Labels.leaderBoard.position = (CGPoint(x: CGRectGetMidX(self.frame), y: CGRectGetMaxY(playTitle.frame) - 525))
+        addChild(Labels.leaderBoard)
     }
     
     func spawnNumbers() {
@@ -67,12 +72,15 @@ class GameScene: SKScene {
                 scene.size = skView.bounds.size
                 skView.presentScene(scene)
             }
+            if self.nodeAtPoint(location) == Labels.leaderBoard {
+                self.postScoreToLeaderBoard()
+            }
         }
     }
     
     func evictOffScreenNumNodes() {
         let results = numContainerSet.filter({$0.position.y < -$0.size.height / 2.0})
-
+        
         results.forEach { (node) in
             node.removeFromParent()
             numContainerSet.remove(node)
@@ -82,5 +90,46 @@ class GameScene: SKScene {
     override func update(currentTime: NSTimeInterval) {
         evictOffScreenNumNodes()
     }
+    
+    func authPlayer() {
+        let localPlayer = GKLocalPlayer.localPlayer()
+        
+        localPlayer.authenticateHandler = {
+            (view, error) in
+            
+            if view != nil {
+            }
+        }
+    }
+    
+    func postScoreToLeaderBoard() {
+        
+        guard let stringScore =  Scores.highScore?.stringValue else { return }
+        
+        if GKLocalPlayer.localPlayer().authenticated {
+            let scoreReporter = GKScore(leaderboardIdentifier: "1.0")
+            scoreReporter.value = Int64(stringScore)!
+            let scoreArray: [GKScore] = [scoreReporter]
+            GKScore.reportScores(scoreArray, withCompletionHandler: nil)
+            print("Score sent to GameCenter")
+            self.presentLeaderBoard()
+        }
+        
+    }
+    
+    func presentLeaderBoard() {
+        let viewController = self.view!.window?.rootViewController
+        let leaderBoardVC = GKGameCenterViewController()
+        leaderBoardVC.leaderboardIdentifier = "1.0"
+        leaderBoardVC.gameCenterDelegate = self
+        
+        viewController!.presentViewController(leaderBoardVC, animated: true, completion: nil)
+        
+    }
+    
+    func gameCenterViewControllerDidFinish(gameCenterViewController: GKGameCenterViewController) {
+        gameCenterViewController.dismissViewControllerAnimated(true, completion: nil)
+    }
 }
+
 
