@@ -12,6 +12,8 @@ class GameViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+     
+        
         if let scene = GameScene(fileNamed:"GameScene") {
             // Configure the view.
             let skView = self.view as! SKView
@@ -32,7 +34,7 @@ class GameViewController: UIViewController {
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
-         UIApplication.sharedApplication().statusBarStyle = .Default
+           UIApplication.sharedApplication().statusBarStyle = .Default
     }
     
     // Todo: Status white bar not showing up
@@ -53,6 +55,6 @@ class GameViewController: UIViewController {
     }
     
     override func prefersStatusBarHidden() -> Bool {
-        return true
+        return true 
     }
 }
