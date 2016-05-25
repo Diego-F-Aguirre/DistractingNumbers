@@ -17,6 +17,8 @@ class GameScene: SKScene, GKGameCenterControllerDelegate {
     var numContainerSet = Set<SKSpriteNode>()
     
     override func didMoveToView(view: SKView) {
+        backgroundColor = UIColor(red: 1.000, green: 0.000, blue: 0.184, alpha: 1.00)
+        
         Scores.highScore = 0
         
         addChild(Music.introMusic())
@@ -24,16 +26,19 @@ class GameScene: SKScene, GKGameCenterControllerDelegate {
         spawnNumbersForever()
         authPlayer()
         
-        playButton.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame) - 60)
-        backgroundColor = UIColor(red: 1.000, green: 0.000, blue: 0.184, alpha: 1.00)
-        addChild(playButton)
-        
-        playTitle.position = (CGPoint(x: CGRectGetMidX(self.frame), y: CGRectGetMaxY(self.frame) - 160))
+        playTitle.position = (CGPoint(x: CGRectGetMidX(self.frame), y: CGRectGetMaxY(self.frame) * 0.80))
+        playTitle.size = CGSize(width: 334, height: 112)
         playTitle.zPosition = 1
         addChild(playTitle)
         
+        playButton.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMaxY(self.frame) * 0.50)
+        playButton.size = CGSize(width: 210, height: 210)
+        print(playButton.size)
+        addChild(playButton)
+        
         Labels.createLeaderBoardTitle()
-        Labels.leaderBoard.position = (CGPoint(x: CGRectGetMidX(self.frame), y: CGRectGetMaxY(playTitle.frame) - 525))
+        Labels.leaderBoard.position = (CGPoint(x: CGRectGetMidX(self.frame), y: CGRectGetMaxY(self.frame) * 0.15))
+        Labels.leaderBoard.fontSize = CGRectGetMaxY(self.frame)/20
         addChild(Labels.leaderBoard)
     }
     

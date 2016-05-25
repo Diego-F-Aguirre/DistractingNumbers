@@ -66,7 +66,7 @@ class Labels: SKLabelNode {
         leaderBoard.verticalAlignmentMode = .Top
         leaderBoard.zPosition = 1
         leaderBoard.fontColor = UIColor.whiteColor()
-        leaderBoard.fontSize = 32
+        //leaderBoard.fontSize = 32
         
         return leaderBoard
     }
