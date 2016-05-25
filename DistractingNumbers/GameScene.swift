@@ -27,12 +27,12 @@ class GameScene: SKScene, GKGameCenterControllerDelegate {
         authPlayer()
         
         playTitle.position = (CGPoint(x: CGRectGetMidX(self.frame), y: CGRectGetMaxY(self.frame) * 0.80))
-        playTitle.size = CGSize(width: 334, height: 112)
+        playTitle.size = CGSize(width: playTitle.size.width - (playTitle.size.width * 0.1), height: playTitle.size.height - (playTitle.size.height * 0.1))
         playTitle.zPosition = 1
         addChild(playTitle)
         
         playButton.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMaxY(self.frame) * 0.50)
-        playButton.size = CGSize(width: 210, height: 210)
+        playButton.size = CGSize(width: 200, height: 200)
         print(playButton.size)
         addChild(playButton)
         
