@@ -17,6 +17,8 @@ class GameScene: SKScene, GKGameCenterControllerDelegate {
     var numContainerSet = Set<SKSpriteNode>()
     
     override func didMoveToView(view: SKView) {
+        Scores.highScore = 0
+        
         addChild(Music.introMusic())
         
         spawnNumbersForever()
@@ -114,7 +116,6 @@ class GameScene: SKScene, GKGameCenterControllerDelegate {
             print("Score sent to GameCenter")
             self.presentLeaderBoard()
         }
-        
     }
     
     func presentLeaderBoard() {
@@ -124,7 +125,6 @@ class GameScene: SKScene, GKGameCenterControllerDelegate {
         leaderBoardVC.gameCenterDelegate = self
         
         viewController!.presentViewController(leaderBoardVC, animated: true, completion: nil)
-        
     }
     
     func gameCenterViewControllerDidFinish(gameCenterViewController: GKGameCenterViewController) {

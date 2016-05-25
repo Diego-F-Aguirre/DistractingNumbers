@@ -43,6 +43,7 @@ class PlayScene: SKScene, SKPhysicsContactDelegate {
     var dampingRate = CGFloat(0)
     var roundState = RoundState.Round1
     var codeExecuted = false
+    var numLabelArray = [SKLabelNode]()
     
     override func didMoveToView(view: SKView) {
         self.backgroundColor = UIColor(red: 1.000, green: 0.000, blue: 0.184, alpha: 1.00)
@@ -134,7 +135,7 @@ class PlayScene: SKScene, SKPhysicsContactDelegate {
         
         randomNumContainer.name = "FakeCircle"
         randomNumContainer.size = CGSize(width: 72, height: 72)
-        randomNumContainer.position = CGPoint(x: spawnPoint, y: self.size.height + 35)
+        randomNumContainer.position = CGPoint(x: spawnPoint, y: self.size.height + 75)
         randomNumContainer.zPosition = -1
         
         //Physics
@@ -154,6 +155,12 @@ class PlayScene: SKScene, SKPhysicsContactDelegate {
             randomNumberLabel.text = String(arc4random_uniform(100))
         }
         
+        let latestNumber = numLabelArray.last
+        
+        if latestNumber!.text == randomNumberLabel.text {
+            randomNumberLabel.text = String((randomNumberLabel.text?.hashValue)! + 10)
+        }
+
         randomNumberLabel.name = "Label"
         randomNumberLabel.zPosition = -2
         randomNumberLabel.position = CGPointMake(CGRectGetMidX(numContainer.centerRect), CGRectGetMidY(numContainer.centerRect))
@@ -175,7 +182,7 @@ class PlayScene: SKScene, SKPhysicsContactDelegate {
         numContainer = SKSpriteNode(imageNamed: "Circle")
         numContainer.name = "Circle"
         numContainer.size = CGSize(width: 72, height: 72)
-        numContainer.position = CGPoint(x: spawnPoint, y: self.size.height + 35)
+        numContainer.position = CGPoint(x: spawnPoint, y: self.size.height + 75)
         numContainer.zPosition = 2
         
         //Pop Particles
@@ -206,6 +213,7 @@ class PlayScene: SKScene, SKPhysicsContactDelegate {
         addChild(numContainer)
         numContainer.addChild(numberLabel)
         numContainerArray.append(numContainer)
+        numLabelArray.append(numberLabel)
         numToTouch += 1
     }
     
@@ -213,7 +221,7 @@ class PlayScene: SKScene, SKPhysicsContactDelegate {
         leftBorderWall.color = UIColor.purpleColor()
         leftBorderWall.name = "LeftBorderWall"
         leftBorderWall.zPosition = 1
-        leftBorderWall.size = CGSize(width: 20, height: CGRectGetMaxY(self.view!.frame) + 75)
+        leftBorderWall.size = CGSize(width: 20, height: CGRectGetMaxY(self.view!.frame) + 150)
         leftBorderWall.position = CGPoint(x: CGRectGetMinX(self.view!.frame) - 10, y: CGRectGetMidY(self.view!.frame))
         
         //Physics
@@ -231,7 +239,7 @@ class PlayScene: SKScene, SKPhysicsContactDelegate {
         rightBorderWall.color = UIColor.purpleColor()
         rightBorderWall.name = "RightBorderWall"
         rightBorderWall.zPosition = 1
-        rightBorderWall.size = CGSize(width: 20, height: CGRectGetMaxY(self.view!.frame) + 75)
+        rightBorderWall.size = CGSize(width: 20, height: CGRectGetMaxY(self.view!.frame) + 150)
         rightBorderWall.position = CGPoint(x: CGRectGetMaxX(self.view!.frame) + 10, y: CGRectGetMidY(self.view!.frame))
         
         //Physics
