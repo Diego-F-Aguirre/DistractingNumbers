@@ -158,7 +158,7 @@ class PlayScene: SKScene, SKPhysicsContactDelegate {
         let latestNumber = numLabelArray.last
         
         if latestNumber!.text == randomNumberLabel.text {
-            randomNumberLabel.text = String((randomNumberLabel.text?.hashValue)! + 10)
+            randomNumberLabel.text = String(Int(randomNumberLabel.text!)! + 10)
         }
 
         randomNumberLabel.name = "Label"
