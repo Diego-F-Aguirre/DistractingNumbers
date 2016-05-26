@@ -17,7 +17,9 @@ class ScoreScene: SKScene {
         
         guard let savedHighScore = NSUserDefaults.standardUserDefaults().objectForKey("savedHighScore") else { return }
         
-        runAction(Music.gameOver())
+        if MusicBool.musicIsOn == true {
+            runAction(Music.gameOver())
+        }
         
         backgroundColor = UIColor(red: 1.000, green: 0.000, blue: 0.184, alpha: 1.00)
         

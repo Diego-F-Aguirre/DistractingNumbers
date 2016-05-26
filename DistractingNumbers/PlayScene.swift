@@ -21,6 +21,10 @@ struct Scores {
     static var highScore = NSUserDefaults.standardUserDefaults().objectForKey("savedHighScore")
 }
 
+struct MusicBool {
+    static var musicIsOn: Bool = true
+}
+
 enum RoundState {
     case Round1
     case RushRound
@@ -68,7 +72,10 @@ class PlayScene: SKScene, SKPhysicsContactDelegate {
         Sprites.bear.position = CGPoint(x: CGRectGetMidX(view.frame), y: CGRectGetMidY(view.frame))
         addChild(Sprites.bear)
         
-        addChild(Music.playRound1())
+        
+        if MusicBool.musicIsOn == true {
+            addChild(Music.playRound1())
+        }
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
@@ -84,13 +91,17 @@ class PlayScene: SKScene, SKPhysicsContactDelegate {
                 })]))
                 
                 Scores.score+=1
-                runAction(Music.popSound())
+                if MusicBool.musicIsOn == true {
+                   runAction(Music.popSound())
+                }
             }
             if theNode.name == "FakeCircle" {
                 health -= 1
                 Sprites.clawFlashNode.hidden = false
                 runAction(SKAction.sequence([SKAction.waitForDuration(0.15), SKAction.runBlock(Sprites.dismissClawFlash)]))
-                runAction(Music.incorrect())
+                if MusicBool.musicIsOn == true {
+                    runAction(Music.incorrect())
+                }
             }
             if roundState == .RushRound {
                 for child in self.children as [SKNode] {
