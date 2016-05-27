@@ -16,6 +16,7 @@ class Labels: SKLabelNode {
     static var highScore = SKLabelNode()
     static var highestScore = SKLabelNode()
     static var leaderBoard = SKLabelNode()
+    static var musicLabel = SKLabelNode()
     
     static func createScoreTitle() -> SKLabelNode {
         scoreTitle = SKLabelNode(text: "Score:")
@@ -66,9 +67,18 @@ class Labels: SKLabelNode {
         leaderBoard.verticalAlignmentMode = .Top
         leaderBoard.zPosition = 1
         leaderBoard.fontColor = UIColor.whiteColor()
-        //leaderBoard.fontSize = 32
         
         return leaderBoard
+    }
+    
+    static func createMusicLabel() -> SKLabelNode {
+        musicLabel = SKLabelNode(text: "Music: Off")
+        musicLabel.fontName = "AvenirNext-Bold"
+        musicLabel.verticalAlignmentMode = .Top
+        musicLabel.zPosition = 1
+        musicLabel.fontColor = UIColor.whiteColor()
+        
+        return musicLabel
     }
     
 }

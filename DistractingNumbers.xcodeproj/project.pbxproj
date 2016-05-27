@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		BC1D2E571CF6539A001374C2 /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC1D2E561CF6539A001374C2 /* GameKit.framework */; };
 		BC2418341CEAD0B700A4AB3D /* Bear_Images.atlas in Resources */ = {isa = PBXBuildFile; fileRef = BC2418331CEAD0B700A4AB3D /* Bear_Images.atlas */; };
 		BC6F0F5C1CF3F5C40020A556 /* CirclePop.sks in Resources */ = {isa = PBXBuildFile; fileRef = BC6F0F5A1CF3F5C40020A556 /* CirclePop.sks */; };
 		BC6F0F5D1CF3F5C40020A556 /* bokeh.png in Resources */ = {isa = PBXBuildFile; fileRef = BC6F0F5B1CF3F5C40020A556 /* bokeh.png */; };
@@ -35,7 +34,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		BC1D2E561CF6539A001374C2 /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		BC2418331CEAD0B700A4AB3D /* Bear_Images.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = Bear_Images.atlas; sourceTree = "<group>"; };
 		BC6F0F5A1CF3F5C40020A556 /* CirclePop.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = CirclePop.sks; sourceTree = "<group>"; };
 		BC6F0F5B1CF3F5C40020A556 /* bokeh.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bokeh.png; sourceTree = "<group>"; };
@@ -69,7 +67,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BC1D2E571CF6539A001374C2 /* GameKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -113,7 +110,6 @@
 		BCD824471CEA2337008216FC = {
 			isa = PBXGroup;
 			children = (
-				BC1D2E561CF6539A001374C2 /* GameKit.framework */,
 				BCD824521CEA2337008216FC /* DistractingNumbers */,
 				BCD824511CEA2337008216FC /* Products */,
 				BC2418331CEAD0B700A4AB3D /* Bear_Images.atlas */,
@@ -189,10 +185,10 @@
 				TargetAttributes = {
 					BCD8244F1CEA2337008216FC = {
 						CreatedOnToolsVersion = 7.3;
-						DevelopmentTeam = HQN23BS377;
+						DevelopmentTeam = VP85VCUHYN;
 						SystemCapabilities = {
 							com.apple.GameCenter = {
-								enabled = 1;
+								enabled = 0;
 							};
 						};
 					};
