@@ -8,6 +8,7 @@
 
 import SpriteKit
 import UIKit
+import AudioToolbox
 
 struct PhysicsCategory {
     static let circle: UInt32 = 0x1 << 0
@@ -101,6 +102,9 @@ class PlayScene: SKScene, SKPhysicsContactDelegate {
                 runAction(SKAction.sequence([SKAction.waitForDuration(0.15), SKAction.runBlock(Sprites.dismissClawFlash)]))
                 if MusicBool.musicIsOn == true {
                     runAction(Music.incorrect())
+                    AudioServicesPlayAlertSound(kSystemSoundID_Vibrate)
+                } else {
+                AudioServicesPlayAlertSound(kSystemSoundID_Vibrate)
                 }
             }
             if roundState == .RushRound {
