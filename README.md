@@ -15,8 +15,8 @@ Team Members and Responsibility
 -------------------------------
 
  - Diego F. Aguirre - UX Design, Physics, Particle Effects, Game logic(removing nodes, pop animation)
- - Kaleo Kim - Game logic(Falling numbers, disappearing tapped numbers, game states)
- - Parker Donat - Music and sound implementation, object constraints, Game Center, phone vibration
+ - Kaleo Kim - Game logic(Falling numbers, disappearing tapped numbers, game states, music implementation)
+ - Parker Donat - Music/sound implementation, object constraints, Game Center, phone vibration, Score logic/persistence
 
 Technologies
 ------------
