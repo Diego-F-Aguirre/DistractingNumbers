@@ -12,14 +12,14 @@ class GameViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-     
+        
         
         if let scene = GameScene(fileNamed:"GameScene") {
             // Configure the view.
             let skView = self.view as! SKView
-//            skView.showsFPS = true
+            //            skView.showsFPS = true
             skView.sizeToFit()
-//            skView.showsNodeCount = true
+            //            skView.showsNodeCount = true
             
             /* Sprite Kit applies additional optimizations to improve rendering performance */
             skView.ignoresSiblingOrder = true
@@ -28,13 +28,30 @@ class GameViewController: UIViewController {
             scene.scaleMode = .ResizeFill
             
             skView.presentScene(scene)
+            
         }
-
+        
     }
+    
+    override func viewDidAppear(animated: Bool) {
+        displayWalkthroughs()
+    }
+    
+    func displayWalkthroughs() {
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        let displayedWalkthroughs = userDefaults.boolForKey("DisplayedWalkthrough")
+        
+        if !displayedWalkthroughs {
+            if let pageViewController = storyboard?.instantiateViewControllerWithIdentifier("PageViewController") {
+                self.presentViewController(pageViewController, animated: true, completion: nil)
+            }
+        }
+    }
+    
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
-           UIApplication.sharedApplication().statusBarStyle = .Default
+        UIApplication.sharedApplication().statusBarStyle = .Default
     }
     
     // Todo: Status white bar not showing up
