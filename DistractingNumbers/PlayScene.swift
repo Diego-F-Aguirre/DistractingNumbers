@@ -167,9 +167,16 @@ class PlayScene: SKScene, SKPhysicsContactDelegate {
         }
         
         let latestNumber = numLabelArray.last
+        let latestNumString = Int(latestNumber!.text!)
+        let numPlusOne = String(latestNumString! + 1)
+        let numPlusTwo = String(latestNumString! + 2)
+        let numPlusThree = String(latestNumString! + 3)
+        let numPlusFour = String(latestNumString! + 4)
+        let numPlusFive = String(latestNumString! + 5)
         
-        if latestNumber!.text == randomNumberLabel.text {
-            randomNumberLabel.text = String(Int(randomNumberLabel.text!)! + 10)
+        if randomNumberLabel.text == latestNumber || randomNumberLabel.text == numPlusOne || randomNumberLabel.text == numPlusTwo || randomNumberLabel.text == numPlusThree || randomNumberLabel.text == numPlusFour || randomNumberLabel.text == numPlusFive {
+            let intLabel = Int(randomNumberLabel.text!)
+            randomNumberLabel.text = String(intLabel! - 1)
         }
 
         randomNumberLabel.name = "Label"
