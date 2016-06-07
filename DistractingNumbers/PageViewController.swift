@@ -27,7 +27,7 @@ class PageViewController: UIPageViewController {
     }
     
     func viewControllerAtIndex(index: Int) -> WalkthroughViewController? {
-        if index == NSNotFound || index < 0 || index > self.pageImages.count {
+        if index == NSNotFound || index < 0 || index > 1 {
             return nil
         }
         
@@ -45,7 +45,7 @@ extension PageViewController: UIPageViewControllerDataSource {
     func pageViewController(pageViewController: UIPageViewController, viewControllerBeforeViewController viewController: UIViewController) -> UIViewController? {
         var index = (viewController as! WalkthroughViewController).index
         index -= 1
-        index = 0
+        
         
         
         return self.viewControllerAtIndex(index)
@@ -54,7 +54,7 @@ extension PageViewController: UIPageViewControllerDataSource {
     func pageViewController(pageViewController: UIPageViewController, viewControllerAfterViewController viewController: UIViewController) -> UIViewController? {
         var index = (viewController as! WalkthroughViewController).index
         index += 1
-        index = 1
+        
         
         return self.viewControllerAtIndex(index)
     }
