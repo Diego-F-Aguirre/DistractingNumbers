@@ -8,6 +8,7 @@
 
 import SpriteKit
 import UIKit
+import AudioToolbox
 
 struct PhysicsCategory {
     static let circle: UInt32 = 0x1 << 0
@@ -101,6 +102,9 @@ class PlayScene: SKScene, SKPhysicsContactDelegate {
                 runAction(SKAction.sequence([SKAction.waitForDuration(0.15), SKAction.runBlock(Sprites.dismissClawFlash)]))
                 if MusicBool.musicIsOn == true {
                     runAction(Music.incorrect())
+                    AudioServicesPlayAlertSound(kSystemSoundID_Vibrate)
+                } else {
+                AudioServicesPlayAlertSound(kSystemSoundID_Vibrate)
                 }
             }
             if roundState == .RushRound {
@@ -167,9 +171,16 @@ class PlayScene: SKScene, SKPhysicsContactDelegate {
         }
         
         let latestNumber = numLabelArray.last
+        let latestNumString = Int(latestNumber!.text!)
+        let numPlusOne = String(latestNumString! + 1)
+        let numPlusTwo = String(latestNumString! + 2)
+        let numPlusThree = String(latestNumString! + 3)
+        let numPlusFour = String(latestNumString! + 4)
+        let numPlusFive = String(latestNumString! + 5)
         
-        if latestNumber!.text == randomNumberLabel.text {
-            randomNumberLabel.text = String(Int(randomNumberLabel.text!)! + 10)
+        if randomNumberLabel.text == latestNumber || randomNumberLabel.text == numPlusOne || randomNumberLabel.text == numPlusTwo || randomNumberLabel.text == numPlusThree || randomNumberLabel.text == numPlusFour || randomNumberLabel.text == numPlusFive {
+            let intLabel = Int(randomNumberLabel.text!)
+            randomNumberLabel.text = String(intLabel! - 1)
         }
 
         randomNumberLabel.name = "Label"
@@ -333,19 +344,19 @@ class PlayScene: SKScene, SKPhysicsContactDelegate {
         case 0...10:
             dampingRate = CGFloat(8)
         case 11...20:
-            dampingRate = CGFloat(6)
+            dampingRate = CGFloat(7)
         case 21...30:
-            dampingRate = CGFloat(4)
+            dampingRate = CGFloat(6)
         case 31...50:
-            dampingRate = CGFloat(3)
+            dampingRate = CGFloat(5)
         case 51...70:
-            dampingRate = CGFloat(2)
+            dampingRate = CGFloat(4)
         case 71...90:
-            dampingRate = CGFloat(1.5)
+            dampingRate = CGFloat(3)
         case 91...110:
-            dampingRate = CGFloat(1)
+            dampingRate = CGFloat(2)
         case 111...130:
-            dampingRate = CGFloat(0.5)
+            dampingRate = CGFloat(1)
         case 131...150:
             dampingRate = CGFloat(0.5)
         case 151...170:
