@@ -15,13 +15,12 @@ class GameScene: SKScene, GKGameCenterControllerDelegate {
     let playTitle = SKSpriteNode(imageNamed: "PlayTitle")
     var numContainer = SKSpriteNode()
     var numContainerSet = Set<SKSpriteNode>()
+    var musicNode = SKAudioNode()
     
     override func didMoveToView(view: SKView) {
         backgroundColor = UIColor(red: 1.000, green: 0.000, blue: 0.184, alpha: 1.00)
         
         Scores.highScore = 0
-        
-        addChild(Music.introMusic())
         
         spawnNumbersForever()
         authPlayer()
@@ -33,13 +32,25 @@ class GameScene: SKScene, GKGameCenterControllerDelegate {
         
         playButton.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMaxY(self.frame) * 0.50)
         playButton.size = CGSize(width: 200, height: 200)
-        print(playButton.size)
         addChild(playButton)
         
         Labels.createLeaderBoardTitle()
-        Labels.leaderBoard.position = (CGPoint(x: CGRectGetMidX(self.frame), y: CGRectGetMaxY(self.frame) * 0.15))
+        Labels.leaderBoard.position = (CGPoint(x: CGRectGetMidX(self.frame), y: CGRectGetMaxY(self.frame) * 0.25))
         Labels.leaderBoard.fontSize = CGRectGetMaxY(self.frame)/20
         addChild(Labels.leaderBoard)
+        
+        Labels.createMusicLabel()
+        Labels.musicLabel.position = (CGPoint(x: CGRectGetMidX(self.frame), y: CGRectGetMaxY(self.frame) * 0.15))
+        Labels.musicLabel.fontSize = CGRectGetMaxY(self.frame)/25
+        addChild(Labels.musicLabel)
+        
+        musicNode = Music.introMusic()
+        if MusicBool.musicIsOn == true {
+            Labels.musicLabel.text = "Music: On"
+            addChild(musicNode)
+        } else {
+            Labels.musicLabel.text = "Music: Off"
+        }
     }
     
     func spawnNumbers() {
@@ -81,6 +92,21 @@ class GameScene: SKScene, GKGameCenterControllerDelegate {
             }
             if self.nodeAtPoint(location) == Labels.leaderBoard {
                 self.postScoreToLeaderBoard()
+            }
+            if self.nodeAtPoint(location) == Labels.musicLabel {
+                if MusicBool.musicIsOn == true {
+                    MusicBool.musicIsOn = false
+                    Labels.musicLabel.text = "Music: Off"
+                    for child in self.children as [SKNode] {
+                        if child.name == "intro" {
+                            self.removeChildrenInArray([child])
+                        }
+                    }
+                } else if MusicBool.musicIsOn == false {
+                    MusicBool.musicIsOn = true
+                    Labels.musicLabel.text = "Music: On"
+                    addChild(musicNode)
+                }
             }
         }
     }

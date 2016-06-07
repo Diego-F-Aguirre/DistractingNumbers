@@ -14,6 +14,7 @@ class Music: SKAudioNode {
     static func introMusic() -> SKAudioNode {
         let backgroundMusic = SKAudioNode(fileNamed: "menuSound.mp3")
         backgroundMusic.autoplayLooped = true
+        backgroundMusic.name = "intro"
         return backgroundMusic
     }
     
