@@ -1,10 +1,73 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BV1-FR-VrT">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BV1-FR-VrT">
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
+        <!--Page View Controller-->
+        <scene sceneID="AL7-LH-r0b">
+            <objects>
+                <pageViewController storyboardIdentifier="PageViewController" autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="Ptd-0t-Erm" customClass="PageViewController" customModule="DistractingNumbers" customModuleProvider="target" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="G6D-Fi-93f" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-971" y="362"/>
+        </scene>
+        <!--Walkthrough View Controller-->
+        <scene sceneID="NYr-kg-mXF">
+            <objects>
+                <viewController storyboardIdentifier="WalkthroughViewController" id="c7g-Uv-rRx" customClass="WalkthroughViewController" customModule="DistractingNumbers" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="cMz-k3-YeQ"/>
+                        <viewControllerLayoutGuide type="bottom" id="bIm-4b-M2L"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="pgT-aQ-5kG">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Tutorial_Page1" translatesAutoresizingMaskIntoConstraints="NO" id="wpN-Mp-exd">
+                                <rect key="frame" x="0.0" y="20" width="600" height="580"/>
+                            </imageView>
+                            <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="2" translatesAutoresizingMaskIntoConstraints="NO" id="8P1-Ln-c4D">
+                                <rect key="frame" x="289" y="573" width="23" height="37"/>
+                            </pageControl>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FkW-Al-LFJ">
+                                <rect key="frame" x="257" y="543" width="86" height="37"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="86" id="AM4-Ib-SVX"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-Bold" family="Avenir Next" pointSize="18"/>
+                                <state key="normal" title="Got it!">
+                                    <color key="titleColor" red="0.97254901960784312" green="0.0" blue="0.24313725490196078" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="startButtonClicked:" destination="c7g-Uv-rRx" eventType="touchUpInside" id="cPI-aq-ymw"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" red="0.98431372549999996" green="0.0" blue="0.1450980392" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="wpN-Mp-exd" secondAttribute="trailing" id="0Oi-Za-KXF"/>
+                            <constraint firstItem="wpN-Mp-exd" firstAttribute="leading" secondItem="pgT-aQ-5kG" secondAttribute="leading" id="5ol-Um-1Eg"/>
+                            <constraint firstAttribute="bottomMargin" secondItem="8P1-Ln-c4D" secondAttribute="bottom" constant="-10" id="Ftx-lJ-qPk"/>
+                            <constraint firstItem="FkW-Al-LFJ" firstAttribute="centerX" secondItem="pgT-aQ-5kG" secondAttribute="centerX" id="W8T-Ef-xsZ"/>
+                            <constraint firstItem="bIm-4b-M2L" firstAttribute="top" secondItem="wpN-Mp-exd" secondAttribute="bottom" id="WUT-Oa-8Nm"/>
+                            <constraint firstItem="8P1-Ln-c4D" firstAttribute="centerX" secondItem="pgT-aQ-5kG" secondAttribute="centerX" id="Z77-Q2-Tj7"/>
+                            <constraint firstItem="bIm-4b-M2L" firstAttribute="top" secondItem="FkW-Al-LFJ" secondAttribute="bottom" constant="20" id="p49-Hc-MT6"/>
+                            <constraint firstItem="wpN-Mp-exd" firstAttribute="top" secondItem="cMz-k3-YeQ" secondAttribute="bottom" id="xG7-Q7-v7Y"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="imageView" destination="wpN-Mp-exd" id="3wP-ll-NSQ"/>
+                        <outlet property="pageControl" destination="8P1-Ln-c4D" id="TNF-1Y-Qsb"/>
+                        <outlet property="startButton" destination="FkW-Al-LFJ" id="qUA-Nm-Odj"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Sjp-Y6-JuL" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-339" y="362"/>
+        </scene>
         <!--Game View Controller-->
         <scene sceneID="tXr-a1-R10">
             <objects>
@@ -24,4 +87,7 @@
             </objects>
         </scene>
     </scenes>
+    <resources>
+        <image name="Tutorial_Page1" width="414" height="736"/>
+    </resources>
 </document>
