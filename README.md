@@ -21,15 +21,17 @@ Team Members and Responsibility
 Technologies
 ------------
 
- - Sprite Kit
- - Game Center
- - Sprite Kit Particles
- - Sprite Kit Physics
-
-Additional Tools
-----------------
-
- - Sketch
+ - **Sprite Kit** - Apple’s Game Framework for 2D Games
+	 -  **SKPhsyics** - Gravity, LinearDamping & Restitution properties used
+   for the core gameplay. Physics properties change as player’s score
+   gets higher increasing difficulty.
+	 - **SkParticles** - Custom particle effects for satisfactory bubble burst
+   effect as well as trail effect
+ - **GameCenter** - Keep track of your highest score and compete with
+   friends
+ - **Sketch** - Custom designed and prototyped in this excellent
+   Graphics/Design Package
+	 - Quick app & icon design iterations used for every iPhone size
 
 
 > Written with [StackEdit](https://stackedit.io/).
